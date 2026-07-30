@@ -51,7 +51,7 @@
 
 ---
 
-# Super Mario / Terminal Mario
+# Super Mario （The front end is completed with AI assistance）
 
 ## How to Run
 
