@@ -1,17 +1,11 @@
 #The Chinese is for personal use, to make future optimizations easier, so I hope you don't mind.
 #Besides, For the game Demon Roulette, the frontend code is quite heavy in terms of logic and is still being optimized. Please refer to terminal_game.py for the frontend.
-# 恶魔轮盘赌 / Buckshot Roulette
+# 恶魔轮盘赌 / Buckshot Roulette（前端由ai辅助完成）
 
 ## 打开方式
 
-### 终端版（推荐）
-```bash
-cd roulette
-python terminal_game.py
-```
-
-### 原始单文件版
-直接用浏览器打开 `buckshot-roulette.html`（无需服务器）
+### 前端版（已经发布到itch.io上）
+用浏览器打开 `https://nn0rt1s.itch.io/roulette`
 
 ## 操作
 
@@ -53,18 +47,12 @@ python terminal_game.py
 
 ---
 
-# Buckshot Roulette
+# Buckshot Roulette(The front end is completed with AI assistance）
 
 ## How to Run
 
-### Terminal (Recommended)
-```bash
-cd roulette
-python terminal_game.py
-```
-
-### Standalone HTML
-Open `buckshot-roulette.html` directly in your browser. No server needed.
+### Frontend version (Already published on itch.io) 
+Open `https://nn0rt1s.itch.io/roulette` directly in your browser.
 
 ## Controls
 
