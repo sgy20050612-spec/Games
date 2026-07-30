@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>恶魔轮盘赌 - Buckshot Roulette</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --panel: #141414;
+    --border: #2a2a2a;
+    --text: #c4c4c4;
+    --text-dim: #666;
+    --red: #c0392b;
+    --red-glow: #e74c3c;
+    --green: #27ae60;
+    --green-glow: #2ecc71;
+    --gold: #d4a017;
+    --gold-glow: #f0c040;
+    --blue: #2471a3;
+    --blue-glow: #3498db;
+    --purple: #7d3c98;
+    --orange: #d35400;
+    --cyan: #16a085;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  @font-face {
+    font-family: 'GameFont';
+    src: local('Courier New'), local('monospace');
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'GameFont', 'Courier New', monospace;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    user-select: none;
+    background-image:
+      radial-gradient(ellipse at center, #1a1a1a 0%, #0a0a0a 70%),
+      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.008) 2px, rgba(255,255,255,0.008) 4px);
+  }
+
+  #app {
+    width: 100%;
+    max-width: 900px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* ===== SCREEN MANAGEMENT ===== */
+  .screen { display: none; flex-direction: column; gap: 12px; }
+  .screen.active { display: flex; }
+
+  /* ===== TITLE SCREEN ===== */
+  #title-screen {
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    text-align: center;
+  }
+
+  .title-icon {
+    font-size: 80px;
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 30px rgba(231, 76, 60, 0.5));
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+    20%, 40%, 60%, 80% { transform: translateX(4px); }
+  }
+
+  @keyframes flash {
+    0% { background: rgba(255,200,0,0.3); }
+    100% { background: transparent; }
+  }
+
+  @keyframes bloodDrip {
+    0% { opacity: 0; transform: translateY(-10px); }
+    50% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(30px); }
+  }
+
+  .title h1 {
+    font-size: 42px;
+    letter-spacing: 6px;
+    color: var(--red-glow);
+    text-shadow: 0 0 40px rgba(231, 76, 60, 0.7), 0 0 80px rgba(231, 76, 60, 0.3);
+    margin-bottom: 8px;
+  }
+
+  .title .subtitle {
+    font-size: 14px;
+    color: var(--text-dim);
+    letter-spacing: 10px;
+  }
+
+  .title-desc {
+    max-width: 500px;
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.8;
+    margin: 20px 0;
+  }
+
+  .btn {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 12px 36px;
+    font-family: inherit;
+    font-size: 16px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+
+  .btn:hover {
+    border-color: var(--red-glow);
+    color: var(--red-glow);
+    text-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+    box-shadow: 0 0 20px rgba(231, 76, 60, 0.15);
+  }
+
+  .btn:active { transform: scale(0.97); }
+  .btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .btn.red {
+    border-color: var(--red);
+    color: var(--red-glow);
+  }
+  .btn.red:hover {
+    background: rgba(192, 57, 43, 0.15);
+    box-shadow: 0 0 25px rgba(231, 76, 60, 0.25);
+  }
+
+  .btn.green {
+    border-color: var(--green);
+    color: var(--green-glow);
+  }
+  .btn.green:hover {
+    background: rgba(39, 174, 96, 0.15);
+    box-shadow: 0 0 25px rgba(46, 204, 113, 0.25);
+  }
+
+  .btn.small {
+    padding: 6px 16px;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  /* ===== GAME SCREEN ===== */
+  #game-screen {
+    gap: 8px;
+  }
+
+  /* Stats bar */
+  .stats-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+  }
+
+  .round-indicator {
+    display: flex;
+    gap: 8px;
+  }
+  .round-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+  .round-dot.current { background: var(--gold); border-color: var(--gold-glow); box-shadow: 0 0 8px var(--gold); }
+  .round-dot.won { background: var(--green); border-color: var(--green-glow); box-shadow: 0 0 6px var(--green); }
+  .round-dot.lost { background: var(--red); border-color: var(--red-glow); box-shadow: 0 0 6px var(--red); }
+
+  /* Main play area */
+  .play-area {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    padding: 20px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    position: relative;
+    min-height: 280px;
+  }
+
+  /* VS divider */
+  .vs-divider {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 28px;
+    color: var(--text-dim);
+    opacity: 0.5;
+    letter-spacing: 4px;
+    pointer-events: none;
+  }
+
+  /* Character card */
+  .character {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    max-width: 200px;
+    transition: all 0.3s;
+  }
+
+  .character.active-turn {
+    filter: drop-shadow(0 0 12px rgba(240, 192, 64, 0.5));
+  }
+
+  .character-avatar {
+    font-size: 64px;
+    transition: all 0.3s;
+  }
+
+  .character-name {
+    font-size: 14px;
+    letter-spacing: 2px;
+  }
+
+  .character.lost .character-avatar { filter: grayscale(1); opacity: 0.4; }
+
+  /* Health bar */
+  .health-bar-container {
+    display: flex;
+    gap: 6px;
+  }
+
+  .health-bar {
+    width: 14px;
+    height: 28px;
+    border: 1px solid var(--border);
+    background: rgba(39, 174, 96, 0.15);
+    transition: all 0.3s;
+  }
+  .health-bar.filled { background: var(--green-glow); box-shadow: 0 0 8px rgba(46, 204, 113, 0.5); }
+  .health-bar.empty { background: transparent; }
+
+  .health-bar.temp {
+    background: var(--blue-glow);
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+  }
+
+  /* Status effects */
+  .status-effects {
+    display: flex;
+    gap: 6px;
+    min-height: 20px;
+  }
+  .status-badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    border: 1px solid;
+    letter-spacing: 1px;
+  }
+  .status-badge.cuffed { border-color: var(--orange); color: var(--orange); }
+  .status-badge.sawed { border-color: var(--red); color: var(--red-glow); }
+
+  /* Center area - shotgun info */
+  .shotgun-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    max-width: 260px;
+    background: rgba(0,0,0,0.3);
+    padding: 20px;
+    border: 1px solid var(--border);
+  }
+
+  .shotgun-icon {
+    font-size: 56px;
+    transition: transform 0.5s;
+  }
+  .shotgun-icon.firing { animation: shake 0.3s ease-out; }
+
+  .shell-info {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+  }
+
+  .shell-info .counts {
+    font-size: 24px;
+    margin-top: 4px;
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+  }
+  .shell-info .live-count { color: var(--red-glow); }
+  .shell-info .blank-count { color: var(--cyan); }
+  .shell-info .total-count { color: var(--text); }
+
+  .shell-row {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 220px;
+  }
+  .shell-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    border: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+  .shell-dot.unknown { background: transparent; }
+  .shell-dot.revealed-live { background: var(--red-glow); border-color: var(--red); box-shadow: 0 0 4px var(--red); }
+  .shell-dot.revealed-blank { background: var(--cyan); border-color: var(--cyan); }
+  .shell-dot.fired { opacity: 0.2; border-style: dashed; }
+
+  .chamber-indicator {
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 1px;
+  }
+
+  /* Items area */
+  .items-section {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 12px 16px;
+  }
+
+  .items-section h3 {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+
+  .items-grid {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .item-card {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--border);
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    min-width: 80px;
+    position: relative;
+  }
+
+  .item-card:hover:not(.used) {
+    border-color: var(--gold);
+    box-shadow: 0 0 12px rgba(212, 160, 23, 0.2);
+    transform: translateY(-2px);
+  }
+
+  .item-card.used {
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  .item-card.used::after {
+    content: '✕';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 28px;
+    color: var(--red);
+  }
+
+  .item-card.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .item-icon { font-size: 28px; }
+  .item-name { font-size: 10px; letter-spacing: 1px; margin-top: 4px; }
+  .item-count { font-size: 10px; color: var(--text-dim); }
+
+  /* Actions area */
+  .actions-area {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    padding: 10px 0;
+  }
+
+  /* Log */
+  .log-area {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 10px 16px;
+    max-height: 120px;
+    overflow-y: auto;
+    font-size: 11px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  .log-entry {
+    padding: 2px 0;
+    border-bottom: 1px solid rgba(42,42,42,0.5);
+  }
+  .log-entry.important { color: var(--gold); }
+  .log-entry.danger { color: var(--red-glow); }
+  .log-entry.success { color: var(--green-glow); }
+  .log-entry.info { color: var(--blue-glow); }
+
+  .log-area::-webkit-scrollbar { width: 4px; }
+  .log-area::-webkit-scrollbar-thumb { background: var(--border); }
+
+  /* Overlay / Modal */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+  }
+  .overlay.show { display: flex; }
+
+  .modal {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 30px;
+    text-align: center;
+    max-width: 420px;
+    animation: float 0.5s ease-out;
+  }
+
+  .modal h2 {
+    font-size: 28px;
+    letter-spacing: 4px;
+    margin-bottom: 12px;
+  }
+  .modal .win-title { color: var(--green-glow); text-shadow: 0 0 20px rgba(46, 204, 113, 0.5); }
+  .modal .lose-title { color: var(--red-glow); text-shadow: 0 0 20px rgba(231, 76, 60, 0.5); }
+  .modal .big-emoji { font-size: 64px; margin: 10px 0; }
+  .modal p { color: var(--text-dim); font-size: 13px; line-height: 1.8; margin-bottom: 16px; }
+
+  .modal .round-result { font-size: 14px; letter-spacing: 2px; margin: 10px 0; }
+  .modal .round-result.win { color: var(--green-glow); }
+  .modal .round-result.lose { color: var(--red-glow); }
+
+  /* Damage flash */
+  .damage-flash {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
+  }
+
+  .damage-flash.active {
+    animation: flash 0.4s ease-out;
+  }
+
+  /* Floating text */
+  .floating-text {
+    position: absolute;
+    font-size: 20px;
+    font-weight: bold;
+    pointer-events: none;
+    animation: floatUp 1s ease-out forwards;
+    z-index: 60;
+  }
+
+  @keyframes floatUp {
+    0% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-50px); }
+  }
+
+  /* Vignette */
+  .vignette {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    box-shadow: inset 0 0 150px rgba(0,0,0,0.5);
+    border: 20px solid rgba(0,0,0,0.3);
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .play-area {
+      flex-direction: column;
+      gap: 16px;
+      padding: 16px;
+    }
+    .vs-divider { display: none; }
+    .character { max-width: none; flex-direction: row; gap: 10px; }
+    .character-avatar { font-size: 40px; }
+    .shotgun-display { max-width: none; width: 100%; }
+    .items-grid { justify-content: center; }
+    .item-card { min-width: 60px; padding: 8px; }
+    .item-icon { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="vignette"></div>
+<div id="app"></div>
+
+<!-- Damage flash overlay -->
+<div id="damage-flash" class="damage-flash"></div>
+
+<!-- Modal overlay -->
+<div id="modal-overlay" class="overlay">
+  <div id="modal-content" class="modal"></div>
+</div>
+
+<script>
+// ============================================================
+// 恶魔轮盘赌 (Buckshot Roulette) - Complete Game
+// ============================================================
+
+const app = document.getElementById('app');
+const damageFlash = document.getElementById('damage-flash');
+const modalOverlay = document.getElementById('modal-overlay');
+const modalContent = document.getElementById('modal-content');
+
+// ===== AUDIO ENGINE =====
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let audioCtx = null;
+
+function initAudio() {
+  if (!audioCtx) audioCtx = new AudioCtx();
+}
+
+function playTone(freq, duration, type = 'square', vol = 0.08) {
+  if (!audioCtx) return;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = type;
+  osc.frequency.value = freq;
+  gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start();
+  osc.stop(audioCtx.currentTime + duration);
+}
+
+function sfxClick() { playTone(800, 0.05, 'square', 0.05); }
+function sfxHover() { playTone(400, 0.03, 'sine', 0.03); }
+function sfxShoot() {
+  playTone(60, 0.3, 'sawtooth', 0.15);
+  playTone(40, 0.4, 'triangle', 0.1);
+  setTimeout(() => playTone(200, 0.15, 'square', 0.06), 50);
+}
+function sfxBlank() { playTone(300, 0.1, 'sine', 0.04); }
+function sfxItem() { playTone(600, 0.08, 'sine', 0.06); playTone(900, 0.08, 'sine', 0.05); }
+function sfxDamage() {
+  playTone(100, 0.2, 'sawtooth', 0.12);
+  playTone(50, 0.5, 'sawtooth', 0.1);
+}
+function sfxWin() {
+  playTone(523, 0.15, 'square', 0.06);
+  setTimeout(() => playTone(659, 0.15, 'square', 0.06), 150);
+  setTimeout(() => playTone(784, 0.3, 'square', 0.08), 300);
+}
+function sfxLose() {
+  playTone(200, 0.3, 'sawtooth', 0.08);
+  setTimeout(() => playTone(100, 0.5, 'sawtooth', 0.1), 300);
+}
+function sfxEject() { playTone(500, 0.08, 'triangle', 0.05); }
+
+// ===== GAME STATE =====
+const TOTAL_ROUNDS = 3;
+const MAX_LIVES = 3;
+const MAX_ITEMS_PER_ROUND = 4;
+
+const ROUND_CONFIG = [
+  { totalShells: 4, liveMin: 1, liveMax: 2, itemCount: 2 },
+  { totalShells: 6, liveMin: 2, liveMax: 3, itemCount: 3 },
+  { totalShells: 8, liveMin: 3, liveMax: 5, itemCount: 4 },
+];
+
+const ITEMS = [
+  {
+    id: 'magnifier',
+    name: '放大镜',
+    icon: '🔍',
+    desc: '查看当前弹膛是实弹还是空弹',
+    usable: (state) => state.roundActive && !state.magnifierUsedThisTurn && state.playerTurn,
+  },
+  {
+    id: 'beer',
+    name: '啤酒',
+    icon: '🍺',
+    desc: '退出当前子弹（不发射）',
+    usable: (state) => state.roundActive && state.shells.length > 0 && state.playerTurn,
+  },
+  {
+    id: 'cuffs',
+    name: '手铐',
+    icon: '⛓️',
+    desc: '对手跳过下一回合',
+    usable: (state) => state.roundActive && state.playerTurn && !state.dealerCuffed,
+  },
+  {
+    id: 'cigarette',
+    name: '香烟',
+    icon: '🚬',
+    desc: '恢复一点生命值',
+    usable: (state) => state.roundActive && state.playerTurn && state.playerLives < MAX_LIVES,
+  },
+  {
+    id: 'saw',
+    name: '锯子',
+    icon: '🪚',
+    desc: '下一发如果是实弹则造成双倍伤害',
+    usable: (state) => state.roundActive && state.playerTurn && !state.playerSawActive,
+  },
+  {
+    id: 'inverter',
+    name: '逆变器',
+    icon: '🔄',
+    desc: '翻转当前弹膛（实弹变空弹，空弹变实弹）',
+    usable: (state) => state.roundActive && state.shells.length > 0 && state.playerTurn,
+  },
+];
+
+function createInitialState() {
+  return {
+    round: 0,
+    totalRounds: TOTAL_ROUNDS,
+    playerLives: MAX_LIVES,
+    playerMaxLives: MAX_LIVES,
+    dealerLives: MAX_LIVES,
+    dealerMaxLives: MAX_LIVES,
+    playerTurn: true,
+    roundActive: false,
+    gameOver: false,
+
+    shells: [],           // array of 'live' | 'blank'
+    shellRevealed: [],    // array of bool — whether this shell's type is known to player
+    currentShellIndex: 0,
+    playerItems: [],
+    dealerItems: [],
+    usedItems: [],
+    playerCuffed: false,
+    dealerCuffed: false,
+    playerSawActive: false,
+    dealerSawActive: false,
+    magnifierUsedThisTurn: false,
+    playerScore: 0,
+    dealerScore: 0,
+    roundHistory: [],
+    log: [],
+    lastTarget: null,
+  };
+}
+
+let state = createInitialState();
+
+// ===== RENDER ENGINE =====
+function render() {
+  if (state.gameOver) {
+    renderGameOver();
+    return;
+  }
+  if (!state.roundActive && state.round === 0) {
+    renderTitleScreen();
+  } else {
+    renderGameScreen();
+  }
+}
+
+// --- TITLE ---
+function renderTitleScreen() {
+  app.innerHTML = `
+    <div class="screen active" id="title-screen">
+      <div class="title-icon">🔫</div>
+      <div class="title">
+        <h1>恶魔轮盘赌</h1>
+        <div class="subtitle">B U C K S H O T &nbsp; R O U L E T T E</div>
+      </div>
+      <div class="title-desc">
+        一把霰弹枪，未知数量的实弹与空弹。<br>
+        是你，还是庄家，能活到最后？<br><br>
+        共 <span style="color:var(--gold)">3</span> 回合 |
+        生命值 <span style="color:var(--green-glow)">3</span> |
+        道具随机发放
+      </div>
+      <button class="btn red" onclick="startGame()">
+        ▸ 开始游戏
+      </button>
+      <div style="margin-top: 30px; font-size: 10px; color: var(--text-dim); letter-spacing: 2px;">
+        灵感来源于 Buckshot Roulette by Mike Klubnika
+      </div>
+    </div>
+  `;
+}
+
+// --- GAME SCREEN ---
+function renderGameScreen() {
+  const roundCfg = ROUND_CONFIG[state.round];
+  const turnLabel = state.playerTurn ? '你的回合' : '庄家回合';
+  const turnColor = state.playerTurn ? 'var(--gold)' : 'var(--red)';
+
+  const roundDots = [];
+  for (let i = 0; i < TOTAL_ROUNDS; i++) {
+    let cls = '';
+    if (i < state.round) cls = state.roundHistory[i] === 'win' ? 'won' : 'lost';
+    else if (i === state.round) cls = 'current';
+    roundDots.push(`<div class="round-dot ${cls}"></div>`);
+  }
+
+  // Characters
+  const playerActive = state.playerTurn && state.roundActive ? 'active-turn' : '';
+  const dealerActive = !state.playerTurn && state.roundActive ? 'active-turn' : '';
+  const playerLost = state.playerLives <= 0 ? 'lost' : '';
+  const dealerLost = state.dealerLives <= 0 ? 'lost' : '';
+
+  // Health bars
+  const playerHearts = buildHealthBars(state.playerLives, state.playerMaxLives);
+  const dealerHearts = buildHealthBars(state.dealerLives, state.dealerMaxLives);
+
+  // Status effects
+  const playerStatus = [];
+  if (state.playerCuffed) playerStatus.push('<span class="status-badge cuffed">⛓ 被铐</span>');
+  if (state.playerSawActive) playerStatus.push('<span class="status-badge sawed">🪚 锯刃</span>');
+
+  const dealerStatus = [];
+  if (state.dealerCuffed) dealerStatus.push('<span class="status-badge cuffed">⛓ 被铐</span>');
+  if (state.dealerSawActive) dealerStatus.push('<span class="status-badge sawed">🪚 锯刃</span>');
+
+  // Shell display
+  const liveCount = state.shells.filter(s => s === 'live').length;
+  const blankCount = state.shells.filter(s => s === 'blank').length;
+  const totalShells = state.shells.length;
+
+  let shellDotsHtml = '';
+  for (let i = 0; i < state.shells.length; i++) {
+    let cls = 'unknown';
+    if (i < state.currentShellIndex) cls = 'fired';
+    else if (state.shellRevealed[i]) {
+      cls = state.shells[i] === 'live' ? 'revealed-live' : 'revealed-blank';
+    }
+    shellDotsHtml += `<div class="shell-dot ${cls}"></div>`;
+  }
+
+  // Items
+  const playerItemsHtml = state.playerItems.length === 0
+    ? '<span style="font-size:11px;color:var(--text-dim);">无道具</span>'
+    : state.playerItems.map((item, idx) => renderItemCard(item, idx, true)).join('');
+
+  // Dealer items (shown face-down or limited)
+  const dealerItemsHtml = `<span style="font-size:11px;color:var(--text-dim);">
+    庄家道具: ${state.dealerItems.length}个
+    ${state.dealerItems.map(i => i.icon).join(' ')}
+  </span>`;
+
+  // Actions
+  let actionsHtml = '';
+  if (state.playerTurn && state.roundActive) {
+    actionsHtml = `
+      <button class="btn red" onclick="shootDealer()" id="btn-shoot-dealer">
+        🎯 向庄家开枪
+      </button>
+      <button class="btn" onclick="shootSelf()" id="btn-shoot-self">
+        💀 向自己开枪
+      </button>
+    `;
+  } else if (!state.playerTurn && state.roundActive) {
+    actionsHtml = `
+      <span style="color:var(--text-dim); font-size:13px; letter-spacing:2px;">
+        庄家正在思考...
+      </span>
+    `;
+  } else {
+    actionsHtml = `
+      <span style="color:var(--text-dim); font-size:13px; letter-spacing:2px;">
+        回合已结束
+      </span>
+    `;
+  }
+
+  // Log
+  const logHtml = state.log.slice(-8).map(e => {
+    let cls = '';
+    if (e.type === 'danger') cls = 'danger';
+    else if (e.type === 'success') cls = 'success';
+    else if (e.type === 'info') cls = 'info';
+    else if (e.type === 'important') cls = 'important';
+    return `<div class="log-entry ${cls}">${e.text}</div>`;
+  }).join('');
+
+  app.innerHTML = `
+    <div class="screen active" id="game-screen">
+      <!-- Stats -->
+      <div class="stats-bar">
+        <span>回合 ${state.round + 1}/${TOTAL_ROUNDS}</span>
+        <div class="round-indicator">${roundDots.join('')}</div>
+        <span style="color:${turnColor};">● ${turnLabel}</span>
+      </div>
+
+      <!-- Play Area -->
+      <div class="play-area">
+        <div class="character ${playerLost} ${playerActive}">
+          <div class="character-avatar">🧑</div>
+          <div class="character-name" style="color:var(--gold);">你</div>
+          <div class="health-bar-container">${playerHearts}</div>
+          <div class="status-effects">${playerStatus.join('')}</div>
+        </div>
+
+        <div class="shotgun-display">
+          <div class="shotgun-icon" id="shotgun-icon">🔫</div>
+          <div class="chamber-indicator">
+            弹膛 ${totalShells > 0 ? state.currentShellIndex + 1 : 0}/${state.shells.length || 0}
+          </div>
+          <div class="shell-row">${shellDotsHtml}</div>
+          <div class="shell-info">
+            <div class="counts">
+              <span class="live-count">💥 ${liveCount}</span>
+              <span class="blank-count">◌ ${blankCount}</span>
+              <span class="total-count">│ ${totalShells}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="character ${dealerLost} ${dealerActive}">
+          <div class="character-avatar">🎭</div>
+          <div class="character-name" style="color:var(--red);">庄家</div>
+          <div class="health-bar-container">${dealerHearts}</div>
+          <div class="status-effects">${dealerStatus.join('')}</div>
+        </div>
+      </div>
+
+      <!-- Items -->
+      <div class="items-section">
+        <h3>🎒 你的道具</h3>
+        <div class="items-grid" id="player-items">${playerItemsHtml}</div>
+      </div>
+
+      <div class="items-section">
+        <h3>🎭 ${dealerItemsHtml}</h3>
+      </div>
+
+      <!-- Actions -->
+      <div class="actions-area">${actionsHtml}</div>
+
+      <!-- Log -->
+      <div class="log-area">${logHtml || '<span style="color:var(--text-dim);">战斗记录将显示在这里...</span>'}</div>
+    </div>
+  `;
+}
+
+function buildHealthBars(current, max) {
+  let html = '';
+  for (let i = 0; i < max; i++) {
+    html += `<div class="health-bar ${i < current ? 'filled' : 'empty'}"></div>`;
+  }
+  return html;
+}
+
+function renderItemCard(item, idx, isPlayer) {
+  const usable = !state.usedItems.includes(idx) && ITEMS.find(i => i.id === item.id).usable(state);
+  let cls = '';
+  if (state.usedItems.includes(idx)) cls = 'used';
+  else if (!usable) cls = 'disabled';
+
+  return `
+    <div class="item-card ${cls}" onclick="useItem(${idx})" title="${item.desc}">
+      <div class="item-icon">${item.icon}</div>
+      <div class="item-name">${item.name}</div>
+    </div>
+  `;
+}
+
+function renderGameOver() {
+  const playerWon = state.playerScore > state.dealerScore;
+  const title = playerWon ? '你赢了！' : '你输了...';
+  const titleCls = playerWon ? 'win-title' : 'lose-title';
+  const emoji = playerWon ? '🏆' : '💀';
+  const msg = playerWon
+    ? `你击败了庄家！最终比分 ${state.playerScore}:${state.dealerScore}`
+    : `庄家笑到了最后。最终比分 ${state.playerScore}:${state.dealerScore}`;
+
+  app.innerHTML = `
+    <div class="screen active" id="game-over-screen" style="align-items:center;justify-content:center;min-height:70vh;text-align:center;">
+      <div class="big-emoji" style="font-size:80px;">${emoji}</div>
+      <h2 class="${titleCls}" style="font-size:36px;letter-spacing:4px;">${title}</h2>
+      <p style="color:var(--text-dim);">${msg}</p>
+      <div style="margin:20px 0;">
+        ${state.roundHistory.map((r, i) =>
+          `<span style="margin:0 8px; color:${r === 'win' ? 'var(--green-glow)' : 'var(--red-glow)'};">
+            回合${i+1}: ${r === 'win' ? '✓' : '✗'}
+          </span>`
+        ).join('')}
+      </div>
+      <button class="btn red" onclick="resetGame()">🔄 再来一局</button>
+    </div>
+  `;
+}
+
+function showModal(title, titleCls, emoji, message, buttonText, buttonAction, buttonCls = 'red') {
+  modalContent.innerHTML = `
+    <div class="big-emoji">${emoji}</div>
+    <h2 class="${titleCls}">${title}</h2>
+    <p>${message}</p>
+    <button class="btn ${buttonCls}" onclick="(() => { hideModal(); ${buttonAction} })()">${buttonText}</button>
+  `;
+  modalOverlay.classList.add('show');
+}
+
+function hideModal() {
+  modalOverlay.classList.remove('show');
+}
+
+// ===== GAME LOGIC =====
+function startGame() {
+  initAudio();
+  state = createInitialState();
+  state.roundActive = true;
+  sfxClick();
+  startRound();
+}
+
+function resetGame() {
+  initAudio();
+  state = createInitialState();
+  state.roundActive = true;
+  sfxClick();
+  startRound();
+}
+
+function startRound() {
+  const cfg = ROUND_CONFIG[state.round];
+  const totalShells = cfg.totalShells;
+  const liveCount = randInt(cfg.liveMin, cfg.liveMax);
+  const blankCount = totalShells - liveCount;
+
+  // Build shells and shuffle
+  const shells = [];
+  for (let i = 0; i < liveCount; i++) shells.push('live');
+  for (let i = 0; i < blankCount; i++) shells.push('blank');
+  shuffle(shells);
+
+  state.shells = shells;
+  state.shellRevealed = new Array(shells.length).fill(false);
+  state.currentShellIndex = 0;
+  state.playerTurn = true;
+  state.roundActive = true;
+  state.playerCuffed = false;
+  state.dealerCuffed = false;
+  state.playerSawActive = false;
+  state.dealerSawActive = false;
+  state.magnifierUsedThisTurn = false;
+  state.usedItems = [];
+  state.lastTarget = null;
+
+  // Distribute items
+  state.playerItems = distributeItems(cfg.itemCount);
+  state.dealerItems = distributeItems(cfg.itemCount);
+
+  addLog('important', `━━━ 回合 ${state.round + 1} 开始 ━━━`);
+  addLog('info', `霰弹枪装填完毕: ${liveCount}发实弹, ${blankCount}发空弹`);
+  addLog('info', `你获得了 ${state.playerItems.map(i => i.icon).join(' ')}`);
+
+  render();
+}
+
+function distributeItems(count) {
+  const pool = [...ITEMS];
+  shuffle(pool);
+  return pool.slice(0, count).map(item => ({ id: item.id, name: item.name, icon: item.icon, desc: item.desc }));
+}
+
+// ===== PLAYER ACTIONS =====
+function shootDealer() {
+  if (!state.playerTurn || !state.roundActive) return;
+  initAudio();
+  fireShot('dealer');
+}
+
+function shootSelf() {
+  if (!state.playerTurn || !state.roundActive) return;
+  initAudio();
+  fireShot('player');
+}
+
+function fireShot(target) {
+  const shell = state.shells[state.currentShellIndex];
+  const isLive = shell === 'live';
+  state.lastTarget = target;
+
+  // Apply saw effect
+  let damage = 1;
+  const attackerSaw = state.playerTurn ? state.playerSawActive : state.dealerSawActive;
+  if (attackerSaw && isLive) {
+    damage = 2;
+    if (state.playerTurn) {
+      state.playerSawActive = false;
+      addLog('danger', '锯刃生效！伤害翻倍！');
+    } else {
+      state.dealerSawActive = false;
+    }
+  }
+
+  // Advance shell index
+  state.shells.splice(state.currentShellIndex, 1);
+  state.shellRevealed.splice(state.currentShellIndex, 1);
+
+  // Reset turn state
+  state.magnifierUsedThisTurn = false;
+
+  // Animate
+  animateShotgun();
+
+  if (isLive) {
+    sfxShoot();
+    flashDamage();
+
+    if (target === 'dealer') {
+      state.dealerLives -= damage;
+      addLog('danger', `💥 实弹！向庄家开枪 —— 造成 ${damage} 点伤害！`);
+    } else {
+      state.playerLives -= damage;
+      addLog('danger', `💥 实弹！向自己开枪 —— 造成 ${damage} 点伤害！`);
+    }
+
+    // Check if target is dead
+    if (state.dealerLives <= 0) {
+      roundEnd('win');
+      return;
+    }
+    if (state.playerLives <= 0) {
+      roundEnd('lose');
+      return;
+    }
+
+    // After live shot, turn changes
+    switchTurn();
+
+  } else {
+    sfxBlank();
+    addLog('info', '◌ 空弹！没有造成伤害。');
+
+    if (target === 'player') {
+      // Shooting self with blank: keep turn
+      addLog('success', '你射了自己一枪空弹 —— 继续你的回合！');
+      // Turn stays with player
+    } else {
+      // Shooting dealer with blank: turn passes
+      switchTurn();
+    }
+  }
+
+  // Check if out of shells
+  if (state.shells.length === 0) {
+    addLog('important', '子弹已耗尽！重新装填...');
+    // Reload but keep current state (rare edge case)
+    reloadShells();
+  }
+
+  render();
+  scheduleDealerTurn();
+}
+
+function switchTurn() {
+  state.playerTurn = !state.playerTurn;
+
+  // Check cuffs
+  if (state.playerTurn && state.playerCuffed) {
+    state.playerCuffed = false;
+    state.playerTurn = false;
+    addLog('info', '⛓ 你被铐住了，跳过回合！');
+  } else if (!state.playerTurn && state.dealerCuffed) {
+    state.dealerCuffed = false;
+    state.playerTurn = true;
+    addLog('info', '⛓ 庄家被铐住了，跳过回合！');
+  }
+}
+
+function reloadShells() {
+  const cfg = ROUND_CONFIG[state.round];
+  const totalShells = Math.min(cfg.totalShells, 4); // smaller reload
+  const liveCount = randInt(1, Math.min(2, totalShells - 1));
+  const blankCount = totalShells - liveCount;
+  const shells = [];
+  for (let i = 0; i < liveCount; i++) shells.push('live');
+  for (let i = 0; i < blankCount; i++) shells.push('blank');
+  shuffle(shells);
+  state.shells = shells;
+  state.shellRevealed = new Array(shells.length).fill(false);
+  state.currentShellIndex = 0;
+}
+
+function roundEnd(result) {
+  state.roundActive = false;
+  state.roundHistory.push(result);
+
+  if (result === 'win') {
+    state.playerScore++;
+    sfxWin();
+    addLog('success', '🏆 你赢得了本回合！');
+    showModal(
+      '回合胜利！',
+      'win-title',
+      '🏆',
+      `你击败了庄家！比分: ${state.playerScore}:${state.dealerScore}`,
+      state.round + 1 < TOTAL_ROUNDS ? '下一回合' : '查看结果',
+      state.round + 1 < TOTAL_ROUNDS ? 'advanceRound()' : 'endGame()',
+      'green'
+    );
+  } else {
+    state.dealerScore++;
+    sfxLose();
+    addLog('danger', '💀 庄家赢得了本回合！');
+    // Reset lives for next round
+    state.playerLives = state.playerMaxLives;
+    state.dealerLives = state.dealerMaxLives;
+    showModal(
+      '回合失败',
+      'lose-title',
+      '💀',
+      `庄家赢得了本回合。比分: ${state.playerScore}:${state.dealerScore}`,
+      state.round + 1 < TOTAL_ROUNDS ? '下一回合' : '查看结果',
+      state.round + 1 < TOTAL_ROUNDS ? 'advanceRound()' : 'endGame()',
+    );
+  }
+
+  render();
+}
+
+function advanceRound() {
+  hideModal();
+  state.round++;
+  state.playerLives = state.playerMaxLives;
+  state.dealerLives = state.dealerMaxLives;
+  startRound();
+}
+
+function endGame() {
+  hideModal();
+  state.gameOver = true;
+  if (state.playerScore > state.dealerScore) {
+    sfxWin();
+  } else {
+    sfxLose();
+  }
+  render();
+}
+
+// ===== ITEM USAGE =====
+function useItem(idx) {
+  if (!state.playerTurn || !state.roundActive) return;
+  if (state.usedItems.includes(idx)) return;
+
+  const item = state.playerItems[idx];
+  const itemDef = ITEMS.find(i => i.id === item.id);
+  if (!itemDef.usable(state)) return;
+
+  initAudio();
+  sfxItem();
+  state.usedItems.push(idx);
+
+  switch (item.id) {
+    case 'magnifier':
+      useMagnifier();
+      break;
+    case 'beer':
+      useBeer();
+      break;
+    case 'cuffs':
+      useCuffs();
+      break;
+    case 'cigarette':
+      useCigarette();
+      break;
+    case 'saw':
+      useSaw();
+      break;
+    case 'inverter':
+      useInverter();
+      break;
+  }
+
+  render();
+}
+
+function useMagnifier() {
+  if (state.shells.length === 0) return;
+  const shell = state.shells[state.currentShellIndex];
+  state.shellRevealed[state.currentShellIndex] = true;
+  state.magnifierUsedThisTurn = true;
+  addLog('info', `🔍 放大镜显示当前弹膛为: ${shell === 'live' ? '💥 实弹' : '◌ 空弹'}`);
+}
+
+function useBeer() {
+  if (state.shells.length === 0) return;
+  const shell = state.shells[state.currentShellIndex];
+  state.shells.splice(state.currentShellIndex, 1);
+  state.shellRevealed.splice(state.currentShellIndex, 1);
+  sfxEject();
+  addLog('info', `🍺 啤酒退出了当前的 ${shell === 'live' ? '实弹' : '空弹'}`);
+  if (state.shells.length === 0) {
+    reloadShells();
+    addLog('info', '子弹已耗尽，重新装填...');
+  }
+}
+
+function useCuffs() {
+  state.dealerCuffed = true;
+  addLog('info', '⛓ 手铐已使用 —— 庄家将跳过下一回合！');
+}
+
+function useCigarette() {
+  state.playerLives = Math.min(state.playerLives + 1, state.playerMaxLives);
+  addLog('success', '🚬 香烟恢复了1点生命值！');
+}
+
+function useSaw() {
+  state.playerSawActive = true;
+  addLog('danger', '🪚 锯子已激活 —— 下一发实弹将造成双倍伤害！');
+}
+
+function useInverter() {
+  if (state.shells.length === 0) return;
+  const current = state.shells[state.currentShellIndex];
+  state.shells[state.currentShellIndex] = current === 'live' ? 'blank' : 'live';
+  // If revealed, update the revealed info
+  if (state.shellRevealed[state.currentShellIndex]) {
+    // The revealed flag stays true but now shows the flipped type
+  }
+  state.shellRevealed[state.currentShellIndex] = false; // uncertainty after flip
+  addLog('info', `🔄 逆变器翻转了当前弹膛！`);
+}
+
+// ===== DEALER AI =====
+function scheduleDealerTurn() {
+  if (!state.roundActive || state.gameOver) return;
+  if (state.playerTurn) return;
+
+  // Dealer thinks for a moment
+  setTimeout(() => {
+    if (!state.roundActive || state.gameOver || state.playerTurn) return;
+    dealerTakeTurn();
+  }, 800 + Math.random() * 1200);
+}
+
+function dealerTakeTurn() {
+  initAudio();
+
+  // Step 1: Maybe use an item (smart AI)
+  if (state.dealerItems.length > 0) {
+    const shouldUseItem = Math.random() < 0.65; // 65% chance to use item
+    if (shouldUseItem) {
+      const item = pickBestDealerItem();
+      if (item) {
+        dealerUseItem(item);
+        render();
+        // Short delay then continue
+        setTimeout(() => {
+          if (!state.roundActive || state.gameOver) return;
+          if (state.playerTurn) {
+            render();
+            return;
+          }
+          dealerDecideShot();
+        }, 600);
+        return;
+      }
+    }
+  }
+
+  dealerDecideShot();
+}
+
+function pickBestDealerItem() {
+  const items = state.dealerItems.filter((item, idx) => {
+    // Simple filter for usable items
+    if (item.id === 'magnifier' && state.shells.length > 0) return true;
+    if (item.id === 'beer' && state.shells.length > 0) return true;
+    if (item.id === 'cuffs' && !state.playerCuffed) return true;
+    if (item.id === 'cigarette' && state.dealerLives < state.dealerMaxLives) return true;
+    if (item.id === 'saw' && !state.dealerSawActive) return true;
+    if (item.id === 'inverter' && state.shells.length > 0) return true;
+    return false;
+  });
+
+  if (items.length === 0) return null;
+
+  // Smart AI: prefer items based on situation
+  const knownLive = state.shells[state.currentShellIndex] === 'live' &&
+    state.shellRevealed[state.currentShellIndex];
+  const knownBlank = state.shells[state.currentShellIndex] === 'blank' &&
+    state.shellRevealed[state.currentShellIndex];
+
+  // If dealer is low on health, prioritize cigarette
+  if (state.dealerLives <= 1) {
+    const cig = items.find(i => i.id === 'cigarette');
+    if (cig) return cig;
+  }
+
+  // If next shell is known live, use beer or inverter
+  if (knownLive) {
+    const beer = items.find(i => i.id === 'beer');
+    if (beer) return beer;
+    const inv = items.find(i => i.id === 'inverter');
+    if (inv) return inv;
+  }
+
+  // Random from available, preferring saw and cuffs
+  const priority = ['saw', 'cuffs', 'magnifier', 'beer', 'inverter', 'cigarette'];
+  for (const p of priority) {
+    const found = items.find(i => i.id === p);
+    if (found) return found;
+  }
+
+  return items[0];
+}
+
+function dealerUseItem(item) {
+  const idx = state.dealerItems.indexOf(item);
+  if (idx >= 0) state.dealerItems.splice(idx, 1);
+  sfxItem();
+
+  switch (item.id) {
+    case 'magnifier':
+      if (state.shells.length > 0) {
+        state.shellRevealed[state.currentShellIndex] = true;
+        addLog('info', '🔍 庄家使用了放大镜查看弹膛');
+      }
+      break;
+    case 'beer':
+      if (state.shells.length > 0) {
+        const shell = state.shells[state.currentShellIndex];
+        state.shells.splice(state.currentShellIndex, 1);
+        state.shellRevealed.splice(state.currentShellIndex, 1);
+        sfxEject();
+        addLog('info', `🍺 庄家使用啤酒退出了当前子弹`);
+        if (state.shells.length === 0) {
+          reloadShells();
+          addLog('info', '子弹耗尽，重新装填...');
+        }
+      }
+      break;
+    case 'cuffs':
+      state.playerCuffed = true;
+      addLog('info', '⛓ 庄家给你戴上了手铐！');
+      break;
+    case 'cigarette':
+      state.dealerLives = Math.min(state.dealerLives + 1, state.dealerMaxLives);
+      addLog('info', '🚬 庄家吸了根烟，恢复了生命值');
+      break;
+    case 'saw':
+      state.dealerSawActive = true;
+      addLog('danger', '🪚 庄家拿出了锯子！');
+      break;
+    case 'inverter':
+      if (state.shells.length > 0) {
+        const current = state.shells[state.currentShellIndex];
+        state.shells[state.currentShellIndex] = current === 'live' ? 'blank' : 'live';
+        state.shellRevealed[state.currentShellIndex] = false;
+        addLog('info', '🔄 庄家使用了逆变器！');
+      }
+      break;
+  }
+}
+
+function dealerDecideShot() {
+  if (!state.roundActive || state.gameOver) return;
+  if (state.playerTurn) return;
+
+  const knownLive = state.shellRevealed[state.currentShellIndex] &&
+    state.shells[state.currentShellIndex] === 'live';
+  const knownBlank = state.shellRevealed[state.currentShellIndex] &&
+    state.shells[state.currentShellIndex] === 'blank';
+  const liveCount = state.shells.filter(s => s === 'live').length;
+  const blankCount = state.shells.filter(s => s === 'blank').length;
+  const total = state.shells.length;
+
+  let target;
+  if (knownLive) {
+    // Known live round: always shoot player
+    target = 'player';
+  } else if (knownBlank) {
+    // Known blank round: shoot self to get another turn
+    target = 'dealer';
+  } else {
+    // Unknown: use probability
+    const liveProbability = total > 0 ? liveCount / total : 0;
+
+    if (liveProbability > 0.5) {
+      // More likely live: shoot player
+      target = Math.random() < 0.85 ? 'player' : 'dealer';
+    } else if (liveProbability < 0.35) {
+      // More likely blank: shoot self
+      target = Math.random() < 0.75 ? 'dealer' : 'player';
+    } else {
+      // 50/50: balanced choice
+      target = Math.random() < 0.55 ? 'player' : 'dealer';
+    }
+
+    // Self-preservation: if low health, prefer shooting player
+    if (state.dealerLives <= 1 && liveProbability > 0.3) {
+      target = 'player';
+    }
+  }
+
+  // Apply saw if active (dealer shoots)
+  // This is handled in fireShot
+
+  const targetLabel = target === 'player' ? '你' : '自己';
+  addLog('info', `🎭 庄家向 ${targetLabel} 开枪...`);
+
+  setTimeout(() => {
+    fireShotDealer(target);
+  }, 400);
+}
+
+function fireShotDealer(target) {
+  const shell = state.shells[state.currentShellIndex];
+  const isLive = shell === 'live';
+
+  // Apply dealer saw
+  let damage = 1;
+  if (state.dealerSawActive && isLive) {
+    damage = 2;
+    state.dealerSawActive = false;
+    addLog('danger', '🪚 庄家的锯刃生效！伤害翻倍！');
+  }
+
+  state.shells.splice(state.currentShellIndex, 1);
+  state.shellRevealed.splice(state.currentShellIndex, 1);
+  state.magnifierUsedThisTurn = false;
+
+  animateShotgun();
+
+  if (isLive) {
+    sfxShoot();
+    flashDamage();
+
+    if (target === 'player') {
+      state.playerLives -= damage;
+      addLog('danger', `💥 实弹！庄家向你开枪 —— 造成 ${damage} 点伤害！`);
+    } else {
+      state.dealerLives -= damage;
+      addLog('danger', `💥 实弹！庄家向自己开枪 —— 造成 ${damage} 点伤害！`);
+    }
+
+    if (state.playerLives <= 0) {
+      roundEnd('lose');
+      return;
+    }
+    if (state.dealerLives <= 0) {
+      roundEnd('win');
+      return;
+    }
+
+    switchTurn();
+  } else {
+    sfxBlank();
+    addLog('info', '◌ 空弹！没有造成伤害。');
+
+    if (target === 'dealer') {
+      // Dealer shot self with blank: gets another turn
+      addLog('info', '庄家对自己开了一枪空弹 —— 继续庄家的回合！');
+      // Turn stays with dealer
+    } else {
+      // Dealer shot player with blank: turn passes
+      switchTurn();
+    }
+  }
+
+  if (state.shells.length === 0) {
+    reloadShells();
+    addLog('important', '子弹耗尽，重新装填...');
+  }
+
+  render();
+
+  // If still dealer's turn, schedule next action
+  if (!state.playerTurn && state.roundActive && !state.gameOver) {
+    scheduleDealerTurn();
+  }
+}
+
+// ===== VISUAL EFFECTS =====
+function animateShotgun() {
+  const icon = document.getElementById('shotgun-icon');
+  if (icon) {
+    icon.classList.add('firing');
+    setTimeout(() => icon.classList.remove('firing'), 300);
+  }
+}
+
+function flashDamage() {
+  damageFlash.classList.add('active');
+  setTimeout(() => damageFlash.classList.remove('active'), 400);
+}
+
+// ===== UTILITY =====
+function randInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+
+function addLog(type, text) {
+  state.log.push({ type, text });
+  if (state.log.length > 100) state.log.shift();
+}
+
+// ===== INIT =====
+render();
+
+// ===== KEYBOARD SHORTCUTS =====
+document.addEventListener('keydown', (e) => {
+  if (!state.roundActive) return;
+  if (!state.playerTurn) return;
+
+  switch (e.key.toLowerCase()) {
+    case '1':
+      // Shoot dealer
+      e.preventDefault();
+      shootDealer();
+      break;
+    case '2':
+      // Shoot self
+      e.preventDefault();
+      shootSelf();
+      break;
+    case 'q':
+      // Use first available item
+      e.preventDefault();
+      const usableIdx = state.playerItems.findIndex((item, idx) =>
+        !state.usedItems.includes(idx) && ITEMS.find(i => i.id === item.id).usable(state)
+      );
+      if (usableIdx >= 0) useItem(usableIdx);
+      break;
+    case 'w':
+      e.preventDefault();
+      const secondIdx = state.playerItems.findIndex((item, idx) =>
+        !state.usedItems.includes(idx) && ITEMS.find(i => i.id === item.id).usable(state) && idx > 0
+      );
+      if (secondIdx >= 0) useItem(secondIdx);
+      break;
+  }
+});
+
+console.log('🔫 恶魔轮盘赌已就绪');
+console.log('操作: 点击按钮或键盘快捷键');
+console.log('  1 = 向庄家开枪');
+console.log('  2 = 向自己开枪');
+console.log('  Q = 使用第1个道具');
+console.log('  W = 使用第2个道具');
+console.log('共3回合，每回合双方各有3条命');
+console.log('道具: 放大镜🔍 啤酒🍺 手铐⛓ 香烟🚬 锯子🪚 逆变器🔄');
+</script>
+</body>
+</html>

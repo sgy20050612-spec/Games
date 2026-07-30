@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>超级马里奥 - Terminal Mario</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0a0a0a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Courier New', monospace;
+    overflow: hidden;
+  }
+  #game-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  canvas {
+    border: 2px solid #333;
+    image-rendering: pixelated;
+    background: #1a1a2e;
+  }
+  #hud {
+    display: flex;
+    justify-content: space-between;
+    width: 800px;
+    color: #fff;
+    font-size: 18px;
+    letter-spacing: 2px;
+  }
+  #hud span { padding: 4px 12px; background: #222; border-radius: 4px; }
+  #message {
+    color: #ff0;
+    font-size: 20px;
+    height: 30px;
+    text-align: center;
+    letter-spacing: 2px;
+  }
+</style>
+</head>
+<body>
+<div id="game-wrapper">
+  <div id="hud">
+    <span>❤️ x <b id="lives">3</b></span>
+    <span>💰 <b id="coins">0/0</b></span>
+    <span>⭐ <b id="score">0</b></span>
+    <span>🏰 Level <b id="level">1</b></span>
+  </div>
+  <canvas id="game" width="800" height="400"></canvas>
+  <div id="message">A/D 移动 &nbsp; W 跳跃 &nbsp; 收集金币 避开敌人!</div>
+</div>
+
+<script>
+// ============================================================
+//  终端风格马里奥 - 前端 Canvas 版
+// ============================================================
+
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+const W = 800, H = 400;
+const CELL = 20;  // 每格像素
+const COLS = W / CELL;   // 40 列
+const ROWS = H / CELL;   // 20 行
+
+// ===== 游戏配置 =====
+const GRAVITY = 0.02;
+const JUMP_VEL = -0.45;
+const SPEED = 0.08;
+const FPS = 60;
+
+// ===== 玩家 =====
+let player = {
+  x: 2, y: ROWS - 2,
+  vx: 0, vy: 0,
+  onGround: false,
+  moveDir: 0,
+  score: 0,
+  lives: 3,
+  coinsCollected: 0,
+  totalCoins: 0
+};
+
+// ===== 关卡数据 =====
+let currentLevel = 1;
+let platforms = [];
+let enemies = [];
+let coins = [];
+let flag = { x: 0, y: 0 };
+
+function buildLevel(num) {
+  platforms = [];
+  enemies = [];
+  coins = [];
+
+  // 地面
+  for (let x = 0; x < COLS; x++) {
+    platforms.push({ x, y: ROWS - 1, w: 1 });
+  }
+
+  if (num === 1) {
+    addPlatform(10, ROWS - 5, 6);
+    addPlatform(18, ROWS - 7, 5);
+    addPlatform(25, ROWS - 5, 6);
+    addEnemy(12, ROWS - 5); addEnemy(27, ROWS - 5);
+    addCoin(11, ROWS - 5); addCoin(13, ROWS - 5); addCoin(20, ROWS - 7);
+    addCoin(26, ROWS - 5);
+    flag = { x: 29, y: ROWS - 8 };
+  } else if (num === 2) {
+    addPlatform(5, ROWS - 6, 4);
+    addPlatform(11, ROWS - 8, 4);
+    addPlatform(17, ROWS - 6, 4);
+    addPlatform(23, ROWS - 8, 4);
+    addPlatform(29, ROWS - 6, 6);
+    addEnemy(7, ROWS - 6); addEnemy(13, ROWS - 8);
+    addEnemy(19, ROWS - 6); addEnemy(25, ROWS - 8);
+    addCoin(6, ROWS - 6); addCoin(12, ROWS - 8);
+    addCoin(18, ROWS - 6); addCoin(24, ROWS - 8); addCoin(32, ROWS - 6);
+    flag = { x: 33, y: ROWS - 10 };
+  } else {
+    addPlatform(3, ROWS - 5, 5);
+    addPlatform(10, ROWS - 9, 4);
+    addPlatform(16, ROWS - 5, 4);
+    addPlatform(22, ROWS - 9, 5);
+    addPlatform(29, ROWS - 5, 4);
+    addPlatform(35, ROWS - 7, 4);
+    addPlatform(41, ROWS - 5, 7);
+    addEnemy(5, ROWS - 5); addEnemy(12, ROWS - 9);
+    addEnemy(18, ROWS - 5); addEnemy(24, ROWS - 9);
+    addEnemy(31, ROWS - 5); addEnemy(37, ROWS - 7);
+    addCoin(4, ROWS - 5); addCoin(11, ROWS - 9);
+    addCoin(17, ROWS - 5); addCoin(23, ROWS - 9);
+    addCoin(30, ROWS - 5); addCoin(36, ROWS - 7); addCoin(43, ROWS - 5);
+    flag = { x: 46, y: ROWS - 8 };
+  }
+}
+
+function addPlatform(x, y, w) {
+  for (let i = 0; i < w; i++) platforms.push({ x: x + i, y, w: i === 0 ? w : 0 });
+}
+function addEnemy(x, y) { enemies.push({ x, y, dir: 1, startX: x, range: 4, timer: 0 }); }
+function addCoin(x, y) { coins.push({ x, y, collected: false }); }
+
+// ===== 输入 =====
+const keys = {};
+document.addEventListener('keydown', e => { keys[e.key.toLowerCase()] = true; e.preventDefault(); });
+document.addEventListener('keyup', e => { keys[e.key.toLowerCase()] = false; e.preventDefault(); });
+
+// ===== 粒子效果 =====
+let particles = [];
+function spawnParticles(x, y, color) {
+  for (let i = 0; i < 8; i++) {
+    particles.push({
+      x: x * CELL + CELL / 2, y: y * CELL + CELL / 2,
+      vx: (Math.random() - 0.5) * 4, vy: (Math.random() - 1) * 3,
+      life: 20, color
+    });
+  }
+}
+
+// ===== 更新 =====
+function update() {
+  // 输入
+  player.moveDir = 0;
+  if (keys['a'] || keys['arrowleft']) player.moveDir = -1;
+  if (keys['d'] || keys['arrowright']) player.moveDir = 1;
+  if ((keys['w'] || keys['arrowup'] || keys[' ']) && player.onGround) {
+    player.vy = JUMP_VEL;
+    player.onGround = false;
+  }
+
+  // 合并向量驱动位置
+  player.vx = player.moveDir * SPEED;
+  player.vy += GRAVITY;
+  player.x += player.vx;
+  player.y += player.vy;
+
+  // 碰撞
+  player.onGround = false;
+  for (let p of platforms) {
+    let dx = Math.abs(player.x - p.x);
+    let dy = player.y - p.y;   // 正值 = 玩家在平台下方
+    if (dx < 0.9 && dy > -0.1 && dy < 0.9) {
+      // 仅当玩家脚部到达平台时才碰撞（不会阻止起跳）
+      if (player.vy >= 0) {
+        player.y = p.y - 0.01;
+        player.vy = 0;
+        player.onGround = true;
+      }
+    }
+  }
+  player.x = Math.max(0, Math.min(COLS - 1, player.x));
+  if (player.y > ROWS) { player.lives--; player.x = 2; player.y = ROWS - 3; player.vy = 0; }
+
+  // 敌人
+  for (let e of enemies) {
+    e.timer += 0.02;
+    e.x += e.dir * 0.03;
+    if (e.x > e.startX + e.range) e.dir = -1;
+    if (e.x < e.startX) e.dir = 1;
+  }
+
+  // 金币
+  player.totalCoins = coins.length;
+  for (let c of coins) {
+    if (!c.collected && Math.abs(player.x - c.x) < 0.8 && Math.abs(player.y - c.y) < 0.8) {
+      c.collected = true;
+      player.coinsCollected++;
+      player.score += 100;
+      spawnParticles(c.x, c.y, '#ff0');
+    }
+  }
+
+  // 敌人碰撞
+  for (let e of enemies) {
+    let dx = player.x - e.x, dy = player.y - e.y;
+    if (Math.abs(dx) < 0.7 && Math.abs(dy) < 0.7) {
+      if (player.vy > 0 && dy < -0.3) {
+        // 踩死敌人
+        enemies.splice(enemies.indexOf(e), 1);
+        player.vy = -0.26;  // 踩头弹跳
+        player.score += 200;
+        spawnParticles(e.x, e.y, '#f00');
+      } else {
+        player.lives--;
+        player.x = 2; player.y = ROWS - 3; player.vy = 0;
+        break;
+      }
+    }
+  }
+
+  // 旗帜（仅当所有金币收集完毕后才激活）
+  let allCoinsCollected = player.coinsCollected >= player.totalCoins;
+  if (allCoinsCollected && Math.abs(player.x - flag.x) < 1 && Math.abs(player.y - flag.y) < 2) {
+    player.score += 500;
+    currentLevel++;
+    player.coinsCollected = 0;
+    if (currentLevel > 3) {
+      return 'win';
+    }
+    buildLevel(currentLevel);
+    player.x = 2; player.y = ROWS - 2; player.vy = 0;
+  }
+
+  // 粒子
+  for (let p of particles) { p.x += p.vx; p.y += p.vy; p.life--; }
+  particles = particles.filter(p => p.life > 0);
+
+  return player.lives <= 0 ? 'lose' : 'play';
+}
+
+// ===== 渲染 =====
+function draw() {
+  ctx.fillStyle = '#1a1a2e'; ctx.fillRect(0, 0, W, H);
+
+  // 天空星星
+  ctx.fillStyle = '#fff';
+  for (let i = 0; i < 30; i++) {
+    let sx = (i * 137 + 50) % W, sy = (i * 89 + 23) % H;
+    ctx.fillRect(sx, sy, 2, 2);
+  }
+
+  // 平台
+  ctx.fillStyle = '#4a4';
+  for (let p of platforms) {
+    ctx.fillRect(p.x * CELL, p.y * CELL, CELL, CELL);
+  }
+
+  // 旗帜（仅当所有金币收集完毕后才显示）
+  let allCollected = player.coinsCollected >= player.totalCoins;
+  if (allCollected) {
+    ctx.fillStyle = '#f80';
+    ctx.fillRect(flag.x * CELL, flag.y * CELL, CELL, CELL * 3);
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(flag.x * CELL, flag.y * CELL, CELL, CELL);
+  }
+
+  // 敌人
+  for (let e of enemies) {
+    let wobble = Math.sin(e.timer * 5) * 3;
+    ctx.fillStyle = '#f44';
+    ctx.fillRect(e.x * CELL - 2, e.y * CELL + wobble, CELL + 4, CELL - 6);
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(e.x * CELL + 5, e.y * CELL - 3 + wobble, 6, 6);
+    ctx.fillRect(e.x * CELL + 12, e.y * CELL - 3 + wobble, 6, 6);
+  }
+
+  // 金币
+  for (let c of coins) {
+    if (!c.collected) {
+      let glow = Math.sin(Date.now() / 200 + c.x) * 0.3 + 0.7;
+      ctx.fillStyle = `rgba(255,220,0,${glow})`;
+      ctx.beginPath();
+      ctx.arc(c.x * CELL + CELL / 2, c.y * CELL + CELL / 2, CELL / 3, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  // 玩家
+  let px = player.x * CELL, py = player.y * CELL;
+  ctx.fillStyle = '#e44';
+  ctx.fillRect(px + 2, py, CELL - 4, CELL - 4);       // 身体
+  ctx.fillStyle = '#fca';
+  ctx.fillRect(px + 4, py - 4, CELL - 8, 6);           // 头
+  ctx.fillStyle = '#44f';
+  ctx.fillRect(px, py + 3, CELL, 3);                   // 脚
+
+  // 粒子
+  for (let p of particles) {
+    ctx.fillStyle = p.color;
+    ctx.globalAlpha = p.life / 20;
+    ctx.fillRect(p.x - 2, p.y - 2, 4, 4);
+  }
+  ctx.globalAlpha = 1;
+
+  // HUD
+  document.getElementById('lives').textContent = player.lives;
+  document.getElementById('coins').textContent = player.coinsCollected + '/' + player.totalCoins;
+  document.getElementById('score').textContent = player.score;
+  document.getElementById('level').textContent = currentLevel;
+}
+
+// ===== 游戏循环 =====
+function gameLoop() {
+  let result = update();
+  draw();
+
+  if (result === 'win') {
+    document.getElementById('message').textContent = '恭喜通关! 得分: ' + player.score + '  按 R 重新开始';
+  } else if (result === 'lose') {
+    document.getElementById('message').textContent = '游戏结束! 得分: ' + player.score + '  按 R 重新开始';
+  } else {
+    let left = player.totalCoins - player.coinsCollected;
+    if (left > 0) {
+      document.getElementById('message').textContent = '收集全部 ' + player.totalCoins + ' 枚金币 (剩 ' + left + ' 枚) 旗帜才会出现!';
+    } else {
+      document.getElementById('message').textContent = '全部金币已收集! 去拿旗帜过关!';
+    }
+  }
+  requestAnimationFrame(gameLoop);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key.toLowerCase() === 'r') {
+    player = { x: 2, y: ROWS - 2, vx: 0, vy: 0, onGround: false, moveDir: 0, score: 0, lives: 3, coinsCollected: 0, totalCoins: 0 };
+    currentLevel = 1;
+    buildLevel(1);
+    document.getElementById('message').textContent = '重新开始!';
+  }
+});
+
+// 启动
+buildLevel(1);
+gameLoop();
+</script>
+</body>
+</html>
