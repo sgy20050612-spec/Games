@@ -1,15 +1,9 @@
-# 超级马里奥 / Terminal Mario
+# 超级马里奥 (前端由ai辅助完成）
 
 ## 打开方式
 
-### 终端版
-```bash
-cd mario
-python mario_terminal.py
-```
-
-### 前端版（推荐）
-双击用浏览器打开 `mario_frontend.html`，无需安装任何依赖。
+### 前端版（已经发布到itch.io中）
+用浏览器打开 `https://nn0rt1s.itch.io/mario`，无需安装任何依赖。
 
 ## 操作
 
@@ -61,14 +55,9 @@ python mario_terminal.py
 
 ## How to Run
 
-### Terminal
-```bash
-cd mario
-python mario_terminal.py
-```
 
-### Browser (Recommended)
-Open `mario_frontend.html` directly in your browser. No dependencies required.
+### Browser (Already published on itch.io)
+Open 'https://nn0rt1s.itch.io/mario' directly in your browser. No dependencies required.
 
 ## Controls
 
