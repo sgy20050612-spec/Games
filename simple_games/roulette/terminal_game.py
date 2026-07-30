@@ -42,7 +42,7 @@
       b. 弹膛打空 : 平局，进入下一回合
 
   四、赌局结束
-      3 回合全部结束后，生命多的一方获胜。
+      3 回合全部结束后，赢得回合数多的一方获胜（比分制）。
 ================================================================================
 
 
@@ -128,6 +128,9 @@ class GameState:
         self.dealer_saw = False
         self.magnifier_used = False
         self.round_history = []
+        # AI帮我修改的bug：原始HTML版有比分追踪，我之前遗漏了。
+        self.player_score = 0     # 玩家赢的回合数
+        self.dealer_score = 0     # 庄家赢的回合数
 
     # --- 开始新回合：根据当前回合数装弹、发道具、随机决定先手 ---
     def start_new_round(self):
@@ -149,7 +152,9 @@ class GameState:
         self.dealer_saw = False
         self.magnifier_used = False
         self.round_active = True
-        self.player_turn = True  # 玩家永远先手，避免开局被庄家偷袭
+        # AI帮我修改的bug：原始HTML版是随机先手，我之前为了测试方便改成了玩家永远先手，
+        # 但这不符合原始游戏设计。现在改回随机，和原始版一致，逻辑更正确。
+        self.player_turn = random.random() < 0.5
 
     # --- 开火：取出当前子弹，判定实弹/空弹，扣血，返回结果 ---
     def fire(self, target_is_dealer):
@@ -215,31 +220,52 @@ class GameState:
             return "已翻转"
         return "?"
 
-    # --- 判定回合结束：有人倒下、弹膛打空则结束当前回合 ---
+    # AI帮我修改的bug：原始HTML版弹膛打空后会重新装弹继续，而不是结束回合。
+    # 我之前把弹膛打空当作平局处理，虽然简单但和原始游戏体验不一致。
+    # 现在改为自动重装弹，子弹类型随机，实现更接近原版。
+    def reload_shells(self):
+        """弹膛打空后重新装弹（少量子弹）"""
+        cfg = ROUND_CONFIG[self.round]
+        total = min(cfg["total_shells"], 4)
+        live = random.randint(1, min(2, total - 1))
+        blank = total - live
+        self.shells = (["live"] * live) + (["blank"] * blank)
+        random.shuffle(self.shells)
+        self.current_shell_idx = 0
+        self.add_log(f"子弹耗尽，重新装填... {live}实弹 + {blank}空弹")
+
+    # --- 判定回合结束：有人倒下则结束，弹膛打空则重新装弹 ---
     def check_round_end(self):
         if self.player_lives <= 0:
             self.round_history.append("loss")
+            self.dealer_score += 1
             self._end_round("dealer")
             return True
         if self.dealer_lives <= 0:
             self.round_history.append("win")
+            self.player_score += 1
             self._end_round("player")
             return True
+        # AI帮我修改的bug：弹膛打空不再结束回合，改为自动重装弹（和原版一致）
         if self.current_shell_idx >= len(self.shells):
-            self._end_round(None)
-            return True
+            self.reload_shells()
+            return False
         return False
 
     # --- 内部方法：回合结束后的收尾工作，推进回合数或结束游戏 ---
+    # AI帮我修改的bug：原始HTML版每回合结束后重置生命值，我之前让生命跨回合，
+    # 导致前期受伤影响后期回合。现在每回合独立，且用比分（赢了几回合）定胜负。
     def _end_round(self, winner):
         self.round_active = False
         if winner is not None:
             self.round += 1
+            self.player_lives = MAX_LIVES      # 重置生命，每回合独立
+            self.dealer_lives = MAX_LIVES
             if self.round >= TOTAL_ROUNDS:
                 self.game_over = True
-                if self.player_lives > self.dealer_lives:
+                if self.player_score > self.dealer_score:
                     self.winner = "player"
-                elif self.dealer_lives > self.player_lives:
+                elif self.dealer_score > self.player_score:
                     self.winner = "dealer"
                 else:
                     self.winner = "draw"
@@ -299,7 +325,7 @@ def hearts(n, max_n=MAX_LIVES):
 def show_state(state):
     clear()
     print("=" * 50)
-    print(f"  回合 {state.round + 1}/{TOTAL_ROUNDS}    ", end="")
+    print(f"  回合 {state.round + 1}/{TOTAL_ROUNDS}  比分 {state.player_score}:{state.dealer_score}    ", end="")
     for i in range(TOTAL_ROUNDS):
         if i < len(state.round_history):
             print("O" if state.round_history[i] == "win" else "X", end=" ")
