@@ -385,3 +385,14 @@ States: `Day → Dusk → Night → Result → NextDay / GameOver / Victory / Ex
 | Date | Completed | Issues | Next steps | AI tools / prompt records |
 | --- | --- | --- | --- | --- |
 | | | | | |
+
+
+## Prototype Screenshots
+
+These screenshots show the early minimum playable loop prototype, rather than the full planned game.
+
+![Daytime exploration](images/demo-daytime.png)
+
+![Inventory and manual crafting](images/demo-inventory.png)
+
+[Download the Godot demo project](../downloads/Sea_Drifter_Demo.zip). Open project.godot in Godot 4 to run.

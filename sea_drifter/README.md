@@ -62,3 +62,14 @@ A/D 或方向键左右移动；J 弓箭；K 小刀；Tab 背包；背包中 1—
 - 绘制尺寸、闪烁及屏幕抖动等视觉常量仍在代码中；表中战斗/平衡参数由配置读取。
 - 此版是可运行的最小实现，尚未把全部体验细节逐项人工验收，不将未验证项标为完成。
 
+
+
+## Demo 截图与下载
+
+以下展示初期测试的最小可玩循环，完整游戏规划以策划方案为准。
+
+![白昼探索](docs/images/demo-daytime.png)
+
+![背包与手动合成](docs/images/demo-inventory.png)
+
+[下载 Demo Godot 工程包](downloads/Sea_Drifter_Demo.zip)，使用 Godot 4 打开 project.godot 运行。
