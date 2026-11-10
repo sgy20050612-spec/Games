@@ -1,0 +1,70 @@
+extends SceneTree
+func _initialize(): call_deferred("run")
+func key(game: Node, code: int):
+	var event = InputEventKey.new()
+	event.pressed = true
+	event.physical_keycode = code
+	game._unhandled_key_input(event)
+func run():
+	var game = load("res://main.tscn").instantiate()
+	root.add_child(game)
+	await process_frame
+	game.paused = true
+	var state = root.get_node("GameState")
+	assert(state.bag.size() == 6)
+	assert(state.add_item("wood", 61) == 1)
+	assert(state.used_slots() == 6)
+	for slot in state.bag: assert(slot.count == 10)
+	assert(state.add_item("stone") == 1)
+	state.consume(0)
+	assert(state.bag[0].count == 9)
+	assert(state.add_item("wood") == 0)
+	assert(state.bag[0].count == 10)
+	state.reset()
+	state.add_item("wood", 3)
+	state.craft(false)
+	assert(not state.knife and state.count_item("wood") == 3)
+	state.add_item("blueprint")
+	assert(not state.knife)
+	state.consume(1)
+	assert(state.count_item("blueprint") == 1 and not state.knife)
+	state.craft(false)
+	assert(state.knife and state.count_item("wood") == 0 and state.count_item("blueprint") == 0)
+	state.reset()
+	state.bag[0] = {"kind":"wood", "count":2}
+	state.bag[2] = {"kind":"wood", "count":2}
+	state.craft(true)
+	assert(state.armor == 1 and state.count_item("wood") == 1 and state.bag[0].is_empty())
+	state.reset()
+	state.add_item("wood", 60)
+	state.defer_blueprint()
+	assert(state.blueprint_pending and not state.knife)
+	state.remove_item("wood", 10)
+	state.fulfill_reward()
+	assert(state.count_item("blueprint") == 1 and not state.knife)
+	state.reset()
+	state.add_item("wood", 13)
+	state.add_item("plastic", 8)
+	state.add_item("stone", 6)
+	state.add_item("blueprint")
+	game.paused = false
+	key(game, KEY_TAB)
+	assert(game.inventory)
+	key(game, KEY_RIGHT)
+	assert(state.selected_slot == 1)
+	key(game, KEY_DOWN)
+	assert(state.selected_slot == 4)
+	game.get_node("Seascape")._process(0.1)
+	game.get_node("Hud")._process(0)
+	await process_frame
+	await RenderingServer.frame_post_draw
+	var directory = OS.get_environment("SEA_CAPTURE_DIR")
+	if not directory.is_empty():
+		DirAccess.make_dir_recursive_absolute(directory)
+		root.get_texture().get_image().save_png(directory.path_join("inventory.png"))
+	key(game, KEY_N)
+	assert(state.knife and state.count_item("wood") == 10 and state.count_item("blueprint") == 0)
+	key(game, KEY_ESCAPE)
+	assert(not game.inventory and not game.paused)
+	print("PASS: 2x3 slots, stacks of 10, overflow, partial stacks in full bag, cross-stack craft, manual blueprint recipe, pending reward, keyboard navigation and rendered UI")
+	quit()
