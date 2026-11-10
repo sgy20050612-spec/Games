@@ -3,6 +3,8 @@
 **Version:** v0.2  
 **Date:** 2026-11-08  
 **Author / Team:** XMR  
+
+**Creative statement:** Drawing inspiration from the art style of Kingdom Two Crowns and the gameplay logic of Stardew Valley, we combined their design philosophies and artistic influences to develop our own design plan and build the first minimum playable loop. We expect to complete the design of the entire game in early December 2026.
 **Competition:** AI Game Creation Competition  
 **Purpose:** Team alignment, constraints for AI-generated specifications, scope control, and submission documentation.
 
