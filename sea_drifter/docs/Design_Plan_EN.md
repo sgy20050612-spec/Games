@@ -347,12 +347,13 @@ Night 2 totals nine small and three large enemies. One random small enemy on nig
 - Open world.
 
 ## 10. Technical Plan
-- Engine / version:
-- Directory structure:
+
+- Engine / version: Godot 4.x with GDScript. The current demo declares Godot 4.7 compatibility; its README records import and runtime checks using Godot 4.7.2.
+- Directory structure: `sea_drifter/` is the project root. `project.godot` contains project settings; `config.json` holds balance and visual parameters. `main.tscn/main.gd` manages the main scene and phase flow. `boat`, `enemy`, `arrow` and `loot` handle the player, enemies, arrows and drops. `hud`, `inventory_view.gd` and `result` handle HUD, inventory and results. `game_state.gd` is the global Autoload; `seascape.gd` draws the environment. Tests include `smoke_test.gd`, `inventory_test.gd` and `animation_test.gd`. `docs/` holds plans and images; `downloads/` holds project archives.
 - Version control: Git + daily builds.
-- Build / packaging:
-- Performance targets:
-- Known technical risks:
+- Build / packaging: Currently distributed as a ZIP of the Godot project. Extract it, open `project.godot` in Godot and press F5. Standalone Windows/WebGL export configuration:
+- Performance targets: Base resolution 640 × 360; default window 1280 × 720; Compatibility rendering and Nearest texture filtering; antialiasing and camera position smoothing disabled. Target frame rate and hardware specifications:
+- Known technical risks: A complete manual playthrough is still pending; audio nodes remain placeholders. Inventory and knife rules differ between the original prompt and current implementation and need reconciliation. Fixed phase durations combined with immediate wave-clear endings cannot guarantee an exact 4-minute-30-second session. Some drawing and visual constants remain in scripts. The three-island, resident, technology and automatic-defense systems remain planned full-game features requiring implementation and integration validation.
 - Rollback strategy:
 
 ## 11. Milestones and Weekly Plan
