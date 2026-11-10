@@ -1,0 +1,172 @@
+{
+  "world": {
+    "width": 2400,
+    "height": 360,
+    "reef": 80,
+    "water_y": 240,
+    "start_x": 1200,
+    "pickup_radius": 26,
+    "contact_radius": 27,
+    "alert_distance": 100,
+    "lighthouse_x": 2280,
+    "wave_spacing": 40,
+    "wave_gap": 12,
+    "drop_lifetime": 20,
+    "death_freeze": 0.5,
+    "enemy_knockback": 8
+  },
+  "player": {
+    "hp": 100,
+    "hp_cap": 150,
+    "speed": 120,
+    "invincible": 0.6,
+    "knockback": 40,
+    "turn_lock": 0.1,
+    "attack_move": 0.7,
+    "attack_cap": 10,
+    "armor_cap": 3,
+    "armor_reduction": 0.2,
+    "slots": 6,
+    "stack_limit": 10
+  },
+  "weapons": {
+    "bow": {
+      "damage": 10,
+      "cooldown": 1.0,
+      "windup": 0.15,
+      "range": 240,
+      "speed": 480
+    },
+    "knife": {
+      "damage": 20,
+      "cooldown": 0.8,
+      "windup": 0.1,
+      "range": 32,
+      "hit_lock": 0.2
+    }
+  },
+  "enemies": {
+    "small": {
+      "hp": 20,
+      "speed": 72,
+      "damage": 6,
+      "cooldown": 1.2
+    },
+    "large": {
+      "hp": 60,
+      "speed": 66,
+      "damage": 10,
+      "cooldown": 1.5
+    }
+  },
+  "resources": {
+    "wood_interval": 10,
+    "plastic_interval": 15,
+    "plastic_offset": 2,
+    "wood_count": 6,
+    "plastic_count": 4,
+    "wood_hp": 5,
+    "plastic_attack": 2,
+    "stone_heal": 20,
+    "craft_cost": 3,
+    "board_hp": 10,
+    "board_armor": 1,
+    "wood_drop_chance": 0.5,
+    "knife_blueprints": 1
+  },
+  "phases": {
+    "day": 60,
+    "dusk": 3,
+    "night": 90,
+    "dawn": 3
+  },
+  "waves": [
+    [
+      {
+        "small": 2
+      },
+      {
+        "small": 2
+      },
+      {
+        "small": 2
+      },
+      {
+        "small": 2
+      }
+    ],
+    [
+      {
+        "small": 2
+      },
+      {
+        "small": 2
+      },
+      {
+        "small": 2,
+        "large": 1
+      },
+      {
+        "small": 3,
+        "large": 2
+      }
+    ]
+  ],
+  "visuals": {
+    "palette_smoothing": 2.0,
+    "water_speed": 14.0,
+    "water_bands": 28,
+    "row_rate": 1.7,
+    "idle_rate": 0.65,
+    "boat_bob": 1.6,
+    "boat_roll": 0.025,
+    "enemy_swim_rate": 2.0,
+    "enemy_anticipation": 0.24,
+    "enemy_strike": 0.18,
+    "enemy_recover": 0.28,
+    "hit_flash": 0.12,
+    "trail_lifetime": 0.8,
+    "palettes": {
+      "dawn": [
+        "#343956",
+        "#b47883",
+        "#efb183",
+        "#526374",
+        "#475a69",
+        "#183943",
+        "#74958b",
+        "#f9d29a"
+      ],
+      "noon": [
+        "#526f89",
+        "#8db5c0",
+        "#d6d5ad",
+        "#668b8e",
+        "#385e69",
+        "#163e4d",
+        "#659f9d",
+        "#fff0bd"
+      ],
+      "sunset": [
+        "#302c50",
+        "#a06177",
+        "#f1a575",
+        "#694f68",
+        "#3e3c59",
+        "#202c46",
+        "#a87983",
+        "#ffd598"
+      ],
+      "night": [
+        "#0b1128",
+        "#202641",
+        "#414363",
+        "#292e4c",
+        "#1e283f",
+        "#101f32",
+        "#354960",
+        "#d7d8c0"
+      ]
+    }
+  }
+}
