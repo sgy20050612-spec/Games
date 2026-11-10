@@ -20,23 +20,10 @@
 - **Competition scope:** Three islands; main island levels 1–4; secondary islands unlocked at level 1 and upgraded to level 2; 10 days plus up to 2 extension days; three resident categories; three technology branches; automatic defense unlocked in the middle or late game.
 - **Out of scope:** Resident affection, needs or death; complex story; weather; simultaneous real-time nighttime control on multiple islands; open world; complex technology trees.
 
-## 1. Project Information and Rule Constraints
-
-- Competition deadline / time zone:
-- Must development start from scratch?
-- Engine, asset and plugin licensing restrictions:
-- Deliverables: Playable link or build, cover image, screenshots, controls, demonstration video, AI-use disclosure, and competition concept-post link.
-- Judging criteria:
-- Public concept-post link:
-- Compliance risks:
-
-**Acceptance criteria:** Confirm all rules and assign an owner to each required deliverable.
-
 ## 2. Concept and Positioning
 
 ### 2.1 Setting and Theme
-- One-sentence setting:
-- Connection to the competition theme:
+- One-sentence setting: After the tides swallow their homeland, survivors travel by raft through cursed islands, salvage supplies and rebuild settlements by day, and fight monsters in the sea fog by night to rekindle hope across three islands.
 
 ### 2.2 Player Fantasy
 - Role: Commander and protector overseeing base reconstruction.
@@ -103,12 +90,12 @@ States: `Day → Dusk → Night → Result → NextDay / GameOver / Victory / Ex
 ## 5. System Design
 
 ### 5.1 Player and Interaction
-- Movement:
-- Gathering:
-- Attacking:
+- Movement: Left/right only along the x-axis; A/D or arrow keys; 120 px/s; turn lock 0.1 s; movement while attacking ×0.7.
+- Gathering: Collect floating supplies and enemy drops. A full inventory blocks pickup and displays a warning. Wood, plastic and stone can be consumed at any time.
+- Attacking: J fires the bow; K swings the knife. Attack in the last movement direction; no new attack during windup. Start with a bow; unlock the knife through a blueprint.
 - Building / demolition:
-- Interaction prompts:
-- Player HP / death rules:
+- Interaction prompts: Tab opens inventory/crafting; Esc pauses, with restart available; keyboard only. Reef collisions cause boat shake without damage. Pulse arrows warn of off-screen enemies within 100 px.
+- Player HP / death rules: Initially 100 HP, cap 150; hit invulnerability 0.6 s prevents damage but still applies 40 px knockback. At HP ≤0, freeze for 0.5 s, then show defeat results with restart.
 - Tutorial: For the first two nights, disable resident active skills and automated assignments; the player gathers, builds and fights manually. Enable resident jobs and skills from day 3.
 
 ### 5.2 Resources and Inventory
@@ -251,14 +238,53 @@ States: `Day → Dusk → Night → Result → NextDay / GameOver / Victory / Ex
 | Failure | Base destruction causes defeat | Resource loss, building damage, resident injuries |
 
 ## 6. Content and Balance Tables
-- Map dimensions:
-- Resource-deposit count and respawn:
+
+Filled values below come from the first minimum playable loop prompt. Full-game values not specified there remain blank.
+
+- Map dimensions: 2400 × 360 px; an impassable 80 px reef zone at each end; base viewport 640 × 360; window 1280 × 720.
+- Resource-deposit count and respawn: One wood every 10 s, six per daytime; one plastic every 15 s, four per daytime, staggered against wood. Random x positions between reefs; despawn after 20 s. When one resource reaches its cap, stop spawning it and spawn the other.
 - Building balance table:
 - Wave table:
+
+| Night | Wave | Enemies | Direction | Wave interval |
+| --- | --- | --- | --- | --- |
+| 1 | 1 / 2 / 3 / 4 | Two small enemies each; eight total | Left / right / left / right | 12 s |
+| 2 | 1 | Two small | Left | 12 s |
+| 2 | 2 | Two small | Right | 12 s |
+| 2 | 3 | Two small + one large | Left | 12 s |
+| 2 | 4 | Three small + two large | Right | 12 s |
+
+Night 2 totals nine small and three large enemies. One random small enemy on night 1 drops the knife blueprint; award it at wave clearance if that enemy was not killed.
+
+| Enemy | HP | Speed | Contact damage | Attack interval |
+| --- | --- | --- | --- | --- |
+| Small | 20 | 72 px/s | 6 | 1.2 s |
+| Large | 60 | 66 px/s | 10 | 1.5 s |
+
 - Technology costs:
 - Resident trust curve:
 - Base upgrade requirements:
 - Maintenance-resource formula:
+
+### Other Specified First-Demo Values
+
+| Item | Values |
+| --- | --- |
+| Player HP | Initially 100; cap 150 |
+| Movement / attacking movement | 120 px/s / ×0.7 |
+| Hit invulnerability / knockback / turn lock | 0.6 s / 40 px / 0.1 s |
+| Bow | Damage 10; interval 1.0 s; windup 0.15 s; range 240 px; arrow speed 480 px/s; no piercing |
+| Knife | Damage 20; interval 0.8 s; windup 0.10 s; range 32 px; no repeated hit within 0.2 s |
+| Wood / plastic / stone | Wood: max HP +5 and heal 5; plastic: attack +2, cumulative cap +10; stone: heal 20 HP |
+| Normal enemy drops | Wood / stone, 50% each |
+| Inventory | Six slots; one item per slot, no stacking (original prompt rule) |
+| Reinforced board | Three wood; max HP +10 and armor +1 |
+| Knife blueprint crafting | Three wood; unlock knife (original prompt rule) |
+| Armor | Contact damage -20% per layer; maximum three layers; cleared every dawn |
+| Phases | Day 60 s; dusk 3 s; night ≤90 s, ends immediately on clearance; dawn 3 s |
+| Session | Two days and two nights; approximately 4 minutes 30 seconds |
+| Feedback | Edge arrows for off-screen enemies within 100 px; enemy hit knockback 8 px; death freeze 0.5 s |
+
 - Difficulty: Very low for the first two nights; rises from day 3; spikes on day 10 and in the extension.
 - Economy: Daytime resources support either economic investment or defense, forcing a choice. Secondary islands are easier to upgrade.
 
