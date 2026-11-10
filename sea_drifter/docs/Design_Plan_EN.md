@@ -1,8 +1,8 @@
 # Game Design Document (GDD) v0.2 — [Game Title]
 
 **Version:** v0.2  
-**Date:** 2026-XX-XX  
-**Author / Team:**  
+**Date:** 2026-11-08  
+**Author / Team:** XMR  
 **Competition:** AI Game Creation Competition  
 **Purpose:** Team alignment, constraints for AI-generated specifications, scope control, and submission documentation.
 
