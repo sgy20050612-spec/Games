@@ -1,75 +1,51 @@
-# 海上流浪者 · Godot 4 Demo
+# 海岛~拯救！ / Island Rescue
 
-> 项目阶段：本 Demo 为初期测试的最小可玩循环，用于验证核心玩法。设计规划见 [策划方案](docs/策划方案.md)，当前 Demo 不代表完整游戏。
+团队：**XMR（2 人）** · 最新策划：**GDD v0.3（2026-11-12）**
 
+玩家孤身落在一座破岛上，在 10 天内寻找散落的居民、重建三座基地并研究科技。每夜三岛同时受袭：玩家只能亲自守一座，其余岛屿依靠已建防线与驻守居民进行无画面的后台演算。跨岛支援需要乘船，通讯系统提供远端战况与告急信息。
 
-## 背包与手动合成更新
+## v0.3 设计方向
 
-Tab 打开背包：左侧为工坊，右侧为 2 行 × 3 列的六格行囊。方向键或 WASD 选择格子，E / Enter 使用一件物资，数字 1—6 快捷使用对应格，Tab / Esc 关闭。背包开启时世界暂停。
+- 2D 俯视基地防御、采集建造、居民调度与科技取舍；目标平台为浏览器 WebGL。
+- 3 座岛、10 天 10 夜；白天由玩家自主结束。基准单局 20—25 分钟，深度经营约 30—60 分钟。
+- 撑过第 10 夜且没有任何岛屿核心被摧毁即获胜；最终各岛核心损伤率均不超过 20% 时进入 HE，否则为 NE。任一岛失守进入 BE；玩家倒地本身不直接判负。
+- 木材、石料、食物、研究点四类资源全局共享；居民采用发现与漂流补充的动态池；三支科技共 12 节点。
+- 取消旧版“自动防御解锁/评分制”“全岛满级即胜”“延长两天”及跨岛物流运输规则。
+- 存档仅在白天进行。部分规则仍标注待确认或待调，以最新策划正文为准。
 
-每格同类物品最多堆叠 10 个，优先补满已有堆叠，再放进空格。满格但同类堆叠未满时仍可拾取；所有格子不可接受物品时，掉落物保留在水面并提示背包已满。右下角常驻槽位显示木材、塑料、石头、图纸像素图标及堆叠数量。
+## 文档与实现状态
 
-工坊中 B 消耗 3 木头制作加固板；N 消耗 3 木头 + 1 小刀图纸制作小刀。图纸拾取、掉落过期补发、夜晚结束都不会自动获得武器，必须手动合成。图纸不能当作普通物资使用。合成先校验全部条件，再扣料；材料不足、护甲已满或已有小刀时不扣材料。图纸补发遇到背包满时暂存奖励，腾出空格后补入，仍需手动合成。
+- [最新策划方案 v0.3](docs/策划方案.md)：本次上传的最新完整方案。
+- [旧版英文策划 v0.2（历史参考）](docs/Design_Plan_EN.md)：不代表 v0.3，尚未翻译新版。
+- **现有代码与下载包是初期测试的最小可玩循环**：横版木筏生存原型，验证采集、背包、手动合成、战斗及昼夜流程。它早于 v0.3，尚未实现新版三岛、通讯、居民、科技与存档系统；本次更新策划与项目介绍，不宣称已完成新版玩法。
+- 现有 Demo 使用 Godot 4 / GDScript；v0.3 正式版引擎仍待定（Web 原生方案或 Godot 4 Web 导出）。
 
-config.json 的 player.stack_limit 控制堆叠上限（默认 10），resources.knife_blueprints 控制小刀所需图纸数（默认 1）。新背包规则替代下文旧版“不堆叠”和直接解锁小刀的说明。
+## 运行早期 Demo
 
-验证脚本 inventory_test.gd 已通过：六格布局、单格上限、溢出、满格补堆叠、跨堆叠扣料、图纸不自动解锁、配方扣料、待补发奖励、键盘操作及实际 UI 渲染；smoke_test.gd 已适配新背包并通过原有流程回归。
+下载并解压 [Godot 工程包](downloads/Sea_Drifter_Demo.zip)，在 Godot 4 中打开 `project.godot`，按 F5。
 
-## 像素动画新版
+A/D 或方向键左右移动；J 射箭；K 小刀；Tab 背包；背包中 1—6 使用物资，B 合成加固板，N 合成小刀；Esc 暂停，R 重开。参数位于 `config.json`。当前背包为六格、每格同类物品上限 10，小刀需手动消耗木材与图纸合成。
 
-在原生 640×360 画布上采用原创程序绘制的像素轮廓、暖金落日、紫蓝夜色、三层远山树林视差、流水与断续倒影，参考《王国：两位君主》的氛围与配色方向，没有使用其游戏素材。画面参考：[官方 Steam 页面](https://store.steampowered.com/app/701160/Kingdom_Two_Crowns/)。
-
-- 角色：呼吸起伏、斗篷摆动、划桨、弓箭拉弦释放、小刀挥击与受击闪白。
-- 船体：浮沉、轻微摇摆、灯笼火焰、行进浪花和镜像倒影。
-- 怪物：游动肢体与尾部摆动、举爪蓄力、突进攻击、收势、受击和死亡下沉淡出。蓄力到攻击帧才判伤，一次动作只判伤一次；移动速度和伤害数值不变。
-- 环境：晨曦→日间→晚霞→暮色→月夜→破晓，天空渐变、角色环境染色、星月显隐、水面颜色和反光随时间缓动变化，避免切阶段瞬间换色。
-- 资源绘制为木材束、漂流瓶、石块和图纸；HUD 收纳到边角，保留中央画面。
-
-参数集中在 config.json 的 visuals 节：四色调色板、颜色缓动速度、水流速度、划桨频率、木筏浮沉和怪物蓄力/出手/收势时长。场景装饰尺寸和像素轮廓仍在绘制代码中。
-
-自动检查：smoke_test.gd 验证原有合成、波次、胜负流程；animation_test.gd 实际渲染并对比划桨、流水、怪物攻击帧，验证蓄力后判伤、单次攻击只判伤一次和暮色逐帧连续过渡。visual_probe.gd 可渲染日出、正午、落日和夜战预览（通过 SEA_CAPTURE_DIR 指定输出目录）。本次全部运行通过，无脚本/渲染错误。
-
-运行示例：godot --path . --script animation_test.gd
-
-双击“启动游戏.bat”可使用本机 D 盘已下载的 Godot 直接运行；也可以在 Godot 编辑器按 F5。以下旧版说明中的纯色占位描述已由本节替代。声音仍保留为空占位，尚未添加音频。
-
-用 Godot 4 打开 project.godot，按 F5 开始。已使用 Godot 4.7.2 完成导入、无界面运行及流程自动检查。
-
-## 操作
-A/D 或方向键左右移动；J 弓箭；K 小刀；Tab 背包；背包中 1—6 使用对应格物资，B 合成加固板，N 合成小刀；Esc 暂停，暂停中 R 重开；结算后 Enter 再来一次。无需鼠标。
-
-## 规则与配置
-平衡数值见 config.json；GameState 为 Autoload。世界宽 2400，相机可视宽 640，禁止纵向移动。两夜波次共 8 和 12 只敌人。白天收集资源，夜间战斗，第二次黎明后向右抵达灯塔。
-
-## 已验证
-- [x] Godot 导入和运行无脚本错误；无界面启动无警告输出。
-- [x] 两夜配置波次总数、最终波清场立即进入黎明。
-- [x] 三木头合成护甲与小刀，护甲黎明清零。
-- [x] 灯塔胜利、死亡停帧后失败结算。
-- [x] 工程包含要求的独立场景、三类容器和 AudioStreamPlayer 占位节点。
-- [ ] 完整一局人工键盘游玩、战斗手感与屏幕观感验收。
-
-自动检查：godot --headless --path . --script smoke_test.gd
-
-## 规格冲突及当前限制
-- 规格同时要求相机不平滑与平滑跟随，此版遵循前者，关闭平滑。
-- 规格同时要求拾取立即生效和资源留背包用于合成，此版拾取入包，按数字键使用后生效，避免合成消耗已使用资源。
-- 塑料首刷提前 2 秒，随后每 15 秒刷新，与木头错开。
-- 所有预定波次刷出且存活归零后才算清场，避免波次间空场跳过剩余敌人。90 秒上限到达时清除剩余敌人并补发首夜图纸。
-- 配置的固定昼夜与立即清场规则不能保证单局精确 4分30秒；未擅自修改阶段时长来凑时长。
-- 声音节点已预留但无音频；金边图纸怪暂未加入循环提示音。美术为程序绘制色块，未使用外部美术。
-- 屏幕外箭头用 HUD 文字脉冲显示，背包以六格容量文字列表呈现。
-- 绘制尺寸、闪烁及屏幕抖动等视觉常量仍在代码中；表中战斗/平衡参数由配置读取。
-- 此版是可运行的最小实现，尚未把全部体验细节逐项人工验收，不将未验证项标为完成。
-
-
-
-## Demo 截图与下载
-
-以下展示初期测试的最小可玩循环，完整游戏规划以策划方案为准。
+## 早期 Demo 展示
 
 ![白昼探索](docs/images/demo-daytime.png)
 
 ![背包与手动合成](docs/images/demo-inventory.png)
 
-[下载 Demo Godot 工程包](downloads/Sea_Drifter_Demo.zip)，使用 Godot 4 打开 project.godot 运行。
+## 创作说明
+
+本项目由 XMR 自制，参考《王国：两位君主》的美术风格与《星露谷物语》的采集和成长逻辑，结合其设计理念编写自己的策划方案并制作首版最小可玩循环。此前计划于 2026 年 12 月初完成整个游戏的设计。
+
+---
+
+## English Overview
+
+**Island Rescue — XMR (two-person team), GDD v0.3, 2026-11-12.**
+
+Rebuild three island bases, rescue residents and research technologies across ten days and nights. All three islands face simultaneous attacks; the player can personally defend only one. Other islands run headless defense simulations based on their fortifications and garrisons. Boat travel costs time, while communications provide remote warnings.
+
+Survive night ten without losing any island core to win. HE requires every island's final core damage ratio to be at most 20%; otherwise the outcome is NE. Any island falling triggers BE. Player incapacitation alone does not end the run.
+
+Daytime ends at the player's choice. Four shared resources, a dynamic resident pool and twelve technology nodes support strategic choices. The previous defense-score system, maximum-level victory condition, extension days and inter-island logistics have been removed.
+
+The existing Godot code and downloadable build remain an **early minimum playable loop prototype**, with side-view raft survival, inventory, crafting and combat. They do not yet implement the v0.3 full-game design. The Chinese v0.3 plan is authoritative; the separate English v0.2 document is historical.
