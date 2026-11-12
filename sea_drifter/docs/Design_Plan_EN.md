@@ -1,3 +1,5 @@
+> **Historical document: v0.2. Superseded by [GDD v0.3](策划方案.md). This English version has not yet been updated to the new design.**
+
 # Game Design Document (GDD) v0.2 — [Game Title]
 
 **Version:** v0.2  
