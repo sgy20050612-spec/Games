@@ -1,0 +1,80 @@
+这个外观模组最终以 DeepSeek 为展示名称，程序名称为 Rice Maid Appearance，核心文件是 RiceCommission.dll。整个制作过程经历了从玩法模组到独立皮肤模组的调整。
+1. 确定角色与最初方案
+以蓝发女仆角色的三视图为参考，最初计划同时加入外观和“米饭委托”玩法：地图刷新米饭道具，恢复体力、扣除金币，累计消费后触发怪物透视。后来根据你的要求，删除这些玩法，只保留角色外观。
+2. 制作皮肤选择界面
+最初尝试将外观放入 Customize 的分类栏，随后改为主菜单中的独立入口，最终命名为 SKIN。
+展示页面沿用原版角色预览流程：
+- 左侧展示可转身的 3D 角色。
+- 右侧第一张卡片显示角色正面参考图。
+- 第二张卡片显示 COMING SOON，预留后续皮肤。
+期间修复了面板覆盖角色、入口重复显示 CUSTOMIZE 等问题。
+3. 排查入口无法出现
+多次检查日志后，发现模组虽然加载成功，却在主菜单出现前被销毁。通过开启 BepInEx 的：
+HideManagerGameObject = true
+解决了管理对象被清理的问题。此外，还修复了按钮排列时二维、三维坐标类型不一致的异常。
+4. 从临时外观换成完整模型
+早期版本只是程序生成的头发、裙子、尾巴等部件，叠加在原版机器人上，并不是完整的新角色，所以出现了重叠问题。
+之后你提供了两份 GLB：
+- 第一份包含网格和贴图，没有骨骼。
+- 第二份包含 42 根骨骼、蒙皮权重和贴图，但没有动画。
+最终采用第二份，编写模型加载逻辑，保留骨架和蒙皮，并在加载成功后隐藏原版可见网格。模型约 198 万三角面、79 MB，当时没有进行减面优化。
+5. 接入动作和头部追踪
+读取原版角色的动画节点，将手臂、腿、躯干和头部运动映射到新模型。为避免原模型隐藏后动画停止，保留原版动画更新。
+针对你反馈的“默认侧面、侧面追踪鼠标”，又修正了初始化校准调用、正面朝向和头部追踪坐标。
+这部分属于原版机械角色动作映射，并非完整的人形动画重定向，肘膝弯曲仍有局限。
+6. 统一游戏内和菜单显示
+逐步将皮肤接入：
+- 游戏内角色；
+- 准备界面的 Customize；
+- ESC 菜单右侧预览；
+- SKIN 选择页面。
+同时区分“预览”和“装备”：看到模型不代表已经装备，装备状态通过 Equipped 配置保存。
+7. 完成打包与跨机器修复
+制作了包含 DLL、GLB 和安装说明的压缩包，又加入 Install-Skin.cmd 一键安装脚本，支持自动寻找游戏目录、备份旧版、停用重复 DLL，以及修正 BepInEx 必要设置。
+最后的 1.3.6 修复了另一台电脑上“点击 CONFIRM 只关闭页面，没有装备皮肤”的问题，让确认操作明确保存装备状态。
+最终状态
+已完成完整模型接入、SKIN 界面、动作映射、多处预览和一键安装包。编译、文件及部分运行日志经过检查，但跨机器显示、所有游戏动作和头部追踪并未全部完成实测验收；模型减面和更完整的肘膝动画仍是后续优化项。
+
+The appearance mod was ultimately displayed under the name DeepSeek, with the program name Rice Maid Appearance and the core file RiceCommission.dll. The entire production process went through an adjustment from a gameplay mod to a standalone skin mod.
+
+1. Determining the character and the initial plan
+Using a blue-haired maid character's three-view reference, the initial plan was to add both appearance and a "Rice Commission" gameplay: rice items would spawn on the map, restore stamina, deduct gold, and after cumulative spending, trigger monster ESP. Later, at your request, these gameplay features were removed and only the character appearance was kept.
+
+2. Creating the skin selection interface
+Initially, an attempt was made to place the appearance in the Customize category bar, then it was changed to a standalone entry in the main menu, and finally it was named SKIN.
+The display page follows the original character preview flow:
+- The left side shows a rotatable 3D character.
+- The first card on the right shows the character's front-view reference image.
+- The second card shows COMING SOON, reserving space for future skins.
+During this period, issues such as the panel covering the character and the entry repeatedly displaying CUSTOMIZE were fixed.
+
+3. Troubleshooting the entry not appearing
+After checking the logs multiple times, it was found that although the mod loaded successfully, it was destroyed before the main menu appeared. By enabling BepInEx's:
+HideManagerGameObject = true
+the issue of the managed object being cleaned up was resolved. In addition, an exception caused by inconsistent 2D and 3D coordinate types when arranging the buttons was also fixed.
+
+4. Replacing the temporary appearance with a complete model
+The early version was only programmatically generated hair, skirt, tail, and other parts overlaid on the original robot, rather than a complete new character, so overlapping issues occurred.
+Afterward, you provided two GLB files:
+- The first contained meshes and textures, but no skeleton.
+- The second contained 42 bones, skinning weights, and textures, but no animations.
+Ultimately, the second one was adopted, model loading logic was written, the skeleton and skinning were preserved, and the original visible mesh was hidden after successful loading. The model had about 1.98 million triangles and was 79 MB; at the time, no polygon reduction optimization was performed.
+
+5. Integrating animations and head tracking
+The original character's animation nodes were read, and the arm, leg, torso, and head movements were mapped to the new model. To prevent the animation from stopping after the original model was hidden, the original animation updates were retained.
+In response to your feedback about "default side-facing, side-facing mouse tracking," the initialization calibration call, front-facing orientation, and head-tracking coordinates were corrected.
+This part is mapping of the original mechanical character's movements, not full humanoid animation retargeting; elbow and knee bending still has limitations.
+
+6. Unifying in-game and menu displays
+The skin was gradually integrated into:
+- The in-game character;
+- Customize in the preparation interface;
+- The preview on the right side of the ESC menu;
+- The SKIN selection page.
+At the same time, "preview" and "equip" were distinguished: seeing the model does not mean it has been equipped, and the equipped state is saved through the Equipped configuration.
+
+7. Completing packaging and cross-machine fixes
+A compressed package containing the DLL, GLB, and installation instructions was created, and an Install-Skin.cmd one-click installation script was added, supporting automatic game directory detection, backup of old versions, disabling duplicate DLLs, and correction of necessary BepInEx settings.
+The final 1.3.6 fix addressed the issue on another computer where "clicking CONFIRM only closed the page and did not equip the skin," making the confirmation action explicitly save the equipped state.
+Final status
+Complete model integration, the SKIN interface, animation mapping, multiple previews, and a one-click installation package have been completed. Compilation, files, and some runtime logs were checked, but cross-machine display, all game animations, and head tracking have not all been fully tested and accepted; model polygon reduction and more complete elbow and knee animations remain as follow-up optimization items.
