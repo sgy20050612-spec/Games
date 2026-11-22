@@ -1,24 +1,25 @@
 # 海岛~拯救！ / Island Rescue
 
-团队：**XMR（2 人）** · 最新策划：**GDD v0.3（2026-11-12）**
+团队：**XMR（2 人）** · 最新策划：**GDD v0.7（2026-11-22）**
 
-玩家孤身落在一座破岛上，在 10 天内寻找散落的居民、重建三座基地并研究科技。每夜三岛同时受袭：玩家只能亲自守一座，其余岛屿依靠已建防线与驻守居民进行无画面的后台演算。跨岛支援需要乘船，通讯系统提供远端战况与告急信息。
+比勒加群岛被万年一遇的风暴重创。玩家作为群岛的开创者与领导者，在 10 天内收集物资、找回幸存居民、重建三座基地，并在夜晚与居民一起抵御深海敌人。多岛同时受袭时，玩家只能亲自站在一座岛上，需要在防线布局、居民驻守与跨岛支援之间取舍。
 
-## v0.3 设计方向
+## v0.7 设计方向
 
-- 2D 俯视基地防御、采集建造、居民调度与科技取舍；目标平台为浏览器 WebGL。
-- 3 座岛、10 天 10 夜；白天由玩家自主结束。基准单局 20—25 分钟，深度经营约 30—60 分钟。
-- 撑过第 10 夜且没有任何岛屿核心被摧毁即获胜；最终各岛核心损伤率均不超过 20% 时进入 HE，否则为 NE。任一岛失守进入 BE；玩家倒地本身不直接判负。
-- 木材、石料、食物、研究点四类资源全局共享；居民采用发现与漂流补充的动态池；三支科技共 12 节点。
-- 取消旧版“自动防御解锁/评分制”“全岛满级即胜”“延长两天”及跨岛物流运输规则。
-- 存档仅在白天进行。部分规则仍标注待确认或待调，以最新策划正文为准。
+- 2D 俯视塔防 / 策略 / RPG，使用 Godot 4 Web 导出，计划部署于魔搭创空间。
+- 10 天 10 夜：白天固定 100 秒、入夜转场 2 秒、夜晚固定 80 秒；基础流程约 30.3 分钟，不含暂停与结算停留。
+- 夜晚清空波次后仍可采集、建造和修复，不能提前结束夜晚，也不能在夜间拆除。
+- 科技树与居民树各 6 节点，加 3 个协同点；科技路线强化玩家与无人设施，居民路线强化人口与驻守力量。
+- 高塔形态由驻守兵种决定，空塔不攻击；后期引入电力容量与高级设施。
+- 木、石、铁、食物和研究点全局共享；电力属于设施容量。
+- 主岛核心归零或玩家死亡立即失败；副岛在普通夜晚失守后可于白天清剿、修复并收复。第 10 夜任一岛失守则失败。
+- 撑过第 10 夜且无岛失守为 NE；最终每座岛的非防御设施损伤率均不超过 20% 为 HE。具体判定与数值以最新策划为准。
 
 ## 文档与实现状态
 
-- [最新策划方案 v0.3](docs/策划方案.md)：本次上传的最新完整方案。
-- [旧版英文策划 v0.2（历史参考）](docs/Design_Plan_EN.md)：不代表 v0.3，尚未翻译新版。
-- **现有代码与下载包是初期测试的最小可玩循环**：横版木筏生存原型，验证采集、背包、手动合成、战斗及昼夜流程。它早于 v0.3，尚未实现新版三岛、通讯、居民、科技与存档系统；本次更新策划与项目介绍，不宣称已完成新版玩法。
-- 现有 Demo 使用 Godot 4 / GDScript；v0.3 正式版引擎仍待定（Web 原生方案或 Godot 4 Web 导出）。
+- [最新策划方案 v0.7](docs/策划方案.md)
+- [历史英文策划 v0.2](docs/Design_Plan_EN.md)：尚未更新为 v0.7。
+- **现有代码与下载包仍是初期测试的最小可玩循环**：横版木筏生存原型，验证采集、背包、合成、战斗及昼夜流程，尚未实现 v0.7 的完整三岛设计。本次更新策划与介绍，不修改玩法代码。
 
 ## 运行早期 Demo
 
@@ -40,12 +41,14 @@ A/D 或方向键左右移动；J 射箭；K 小刀；Tab 背包；背包中 1—
 
 ## English Overview
 
-**Island Rescue — XMR (two-person team), GDD v0.3, 2026-11-12.**
+**Island Rescue — XMR (two-person team), GDD v0.7, 2026-11-22.**
 
-Rebuild three island bases, rescue residents and research technologies across ten days and nights. All three islands face simultaneous attacks; the player can personally defend only one. Other islands run headless defense simulations based on their fortifications and garrisons. Boat travel costs time, while communications provide remote warnings.
+Rebuild the storm-struck Bilega archipelago over ten days and nights. Gather supplies, rescue residents and defend three island bases against deep-sea enemies. The player can personally occupy only one island while the others continue their defense simulation.
 
-Survive night ten without losing any island core to win. HE requires every island's final core damage ratio to be at most 20%; otherwise the outcome is NE. Any island falling triggers BE. Player incapacitation alone does not end the run.
+The planned game is a top-down tower-defense / strategy / light RPG built with Godot 4 Web export for ModelScope Spaces. Each day lasts 100 seconds, followed by a 2-second transition and an 80-second night, for approximately 30.3 minutes before pauses and results screens. Clearing waves does not end the night early.
 
-Daytime ends at the player's choice. Four shared resources, a dynamic resident pool and twelve technology nodes support strategic choices. The previous defense-score system, maximum-level victory condition, extension days and inter-island logistics have been removed.
+Technology and resident trees each have six nodes plus three synergy points. Garrisoned units determine tower forms; empty towers cannot attack. Later facilities use electricity capacity. Resources include wood, stone, iron, food and research points.
 
-The existing Godot code and downloadable build remain an **early minimum playable loop prototype**, with side-view raft survival, inventory, crafting and combat. They do not yet implement the v0.3 full-game design. The Chinese v0.3 plan is authoritative; the separate English v0.2 document is historical.
+Player death or destruction of the main core causes defeat. Secondary islands lost before the final night can be reclaimed. Any island lost on night ten causes defeat. Surviving the final night wins; HE additionally requires each island's non-defensive structures to have no more than 20% damage at the final assessment.
+
+The existing code and downloadable build remain an early side-view raft prototype, not an implementation of the full v0.7 design. The Chinese plan is current; the separate English v0.2 plan is historical.
