@@ -18,7 +18,7 @@
 ## 文档与实现状态
 
 - [最新策划方案 v0.7](docs/策划方案.md)
-- [历史英文策划 v0.2](docs/Design_Plan_EN.md)：尚未更新为 v0.7。
+- [完整英文策划 v0.7](docs/Design_Plan_EN.md)
 - **现有代码与下载包仍是初期测试的最小可玩循环**：横版木筏生存原型，验证采集、背包、合成、战斗及昼夜流程，尚未实现 v0.7 的完整三岛设计。本次更新策划与介绍，不修改玩法代码。
 
 ## 运行早期 Demo
@@ -51,4 +51,4 @@ Technology and resident trees each have six nodes plus three synergy points. Gar
 
 Player death or destruction of the main core causes defeat. Secondary islands lost before the final night can be reclaimed. Any island lost on night ten causes defeat. Surviving the final night wins; HE additionally requires each island's non-defensive structures to have no more than 20% damage at the final assessment.
 
-The existing code and downloadable build remain an early side-view raft prototype, not an implementation of the full v0.7 design. The Chinese plan is current; the separate English v0.2 plan is historical.
+The existing code and downloadable build remain an early side-view raft prototype, not an implementation of the full v0.7 design. The complete v0.7 design plan is available in [Chinese](docs/策划方案.md) and [English](docs/Design_Plan_EN.md).
