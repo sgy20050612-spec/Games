@@ -1,0 +1,6 @@
+{
+  "checks": 98,
+  "failures": [],
+  "scope": "simulation unit/integration; durable-core ten-night scheduling fixture; not human acceptance or route balance",
+  "wave_entries": 230
+}

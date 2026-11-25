@@ -1,0 +1,1576 @@
+{
+  "side": [
+    {
+      "region": [
+        77,
+        29,
+        127,
+        181
+      ],
+      "anchor": [
+        65.0,
+        181
+      ],
+      "height": 181,
+      "reference_height": 183
+    },
+    {
+      "region": [
+        306,
+        29,
+        128,
+        181
+      ],
+      "anchor": [
+        56.5,
+        181
+      ],
+      "height": 181,
+      "reference_height": 183
+    },
+    {
+      "region": [
+        529,
+        27,
+        122,
+        183
+      ],
+      "anchor": [
+        52.0,
+        183
+      ],
+      "height": 183,
+      "reference_height": 183
+    },
+    {
+      "region": [
+        748,
+        29,
+        122,
+        181
+      ],
+      "anchor": [
+        59.5,
+        181
+      ],
+      "height": 181,
+      "reference_height": 183
+    },
+    {
+      "region": [
+        73,
+        263,
+        127,
+        182
+      ],
+      "anchor": [
+        68.0,
+        182
+      ],
+      "height": 182,
+      "reference_height": 182
+    },
+    {
+      "region": [
+        296,
+        263,
+        129,
+        181
+      ],
+      "anchor": [
+        65.5,
+        181
+      ],
+      "height": 181,
+      "reference_height": 182
+    },
+    {
+      "region": [
+        523,
+        265,
+        131,
+        180
+      ],
+      "anchor": [
+        55.5,
+        180
+      ],
+      "height": 180,
+      "reference_height": 182
+    },
+    {
+      "region": [
+        741,
+        263,
+        129,
+        182
+      ],
+      "anchor": [
+        66.5,
+        182
+      ],
+      "height": 182,
+      "reference_height": 182
+    },
+    {
+      "region": [
+        74,
+        495,
+        140,
+        181
+      ],
+      "anchor": [
+        64.5,
+        181
+      ],
+      "height": 181,
+      "reference_height": 183
+    },
+    {
+      "region": [
+        299,
+        493,
+        129,
+        183
+      ],
+      "anchor": [
+        54.0,
+        183
+      ],
+      "height": 183,
+      "reference_height": 183
+    },
+    {
+      "region": [
+        531,
+        495,
+        128,
+        181
+      ],
+      "anchor": [
+        46.0,
+        181
+      ],
+      "height": 181,
+      "reference_height": 183
+    },
+    {
+      "region": [
+        743,
+        495,
+        137,
+        181
+      ],
+      "anchor": [
+        59.0,
+        181
+      ],
+      "height": 181,
+      "reference_height": 183
+    },
+    {
+      "region": [
+        65,
+        726,
+        138,
+        185
+      ],
+      "anchor": [
+        75.5,
+        185
+      ],
+      "height": 185,
+      "reference_height": 185
+    },
+    {
+      "region": [
+        290,
+        728,
+        140,
+        181
+      ],
+      "anchor": [
+        71.0,
+        181
+      ],
+      "height": 181,
+      "reference_height": 185
+    },
+    {
+      "region": [
+        516,
+        727,
+        141,
+        184
+      ],
+      "anchor": [
+        66.5,
+        184
+      ],
+      "height": 184,
+      "reference_height": 185
+    },
+    {
+      "region": [
+        739,
+        728,
+        139,
+        183
+      ],
+      "anchor": [
+        67.0,
+        183
+      ],
+      "height": 183,
+      "reference_height": 185
+    },
+    {
+      "region": [
+        64,
+        955,
+        151,
+        187
+      ],
+      "anchor": [
+        75.5,
+        187
+      ],
+      "height": 187,
+      "reference_height": 187
+    },
+    {
+      "region": [
+        284,
+        955,
+        151,
+        187
+      ],
+      "anchor": [
+        76.0,
+        187
+      ],
+      "height": 187,
+      "reference_height": 187
+    },
+    {
+      "region": [
+        516,
+        956,
+        154,
+        187
+      ],
+      "anchor": [
+        68.0,
+        187
+      ],
+      "height": 187,
+      "reference_height": 187
+    },
+    {
+      "region": [
+        737,
+        956,
+        146,
+        187
+      ],
+      "anchor": [
+        67.0,
+        187
+      ],
+      "height": 187,
+      "reference_height": 187
+    },
+    {
+      "region": [
+        53,
+        1189,
+        152,
+        196
+      ],
+      "anchor": [
+        88.5,
+        196
+      ],
+      "height": 196,
+      "reference_height": 197
+    },
+    {
+      "region": [
+        279,
+        1187,
+        154,
+        196
+      ],
+      "anchor": [
+        84.5,
+        196
+      ],
+      "height": 196,
+      "reference_height": 197
+    },
+    {
+      "region": [
+        503,
+        1191,
+        156,
+        194
+      ],
+      "anchor": [
+        80.5,
+        194
+      ],
+      "height": 194,
+      "reference_height": 197
+    },
+    {
+      "region": [
+        729,
+        1188,
+        152,
+        197
+      ],
+      "anchor": [
+        81.0,
+        197
+      ],
+      "height": 197,
+      "reference_height": 197
+    },
+    {
+      "region": [
+        80,
+        1436,
+        109,
+        184
+      ],
+      "anchor": [
+        59.0,
+        184
+      ],
+      "height": 184,
+      "reference_height": 186
+    },
+    {
+      "region": [
+        299,
+        1435,
+        111,
+        185
+      ],
+      "anchor": [
+        59.5,
+        185
+      ],
+      "height": 185,
+      "reference_height": 186
+    },
+    {
+      "region": [
+        529,
+        1435,
+        108,
+        186
+      ],
+      "anchor": [
+        52.0,
+        186
+      ],
+      "height": 186,
+      "reference_height": 186
+    },
+    {
+      "region": [
+        752,
+        1436,
+        110,
+        184
+      ],
+      "anchor": [
+        56.0,
+        184
+      ],
+      "height": 184,
+      "reference_height": 186
+    }
+  ],
+  "vertical": [
+    {
+      "region": [
+        45,
+        19,
+        100,
+        146
+      ],
+      "anchor": [
+        52.5,
+        146
+      ],
+      "height": 146,
+      "reference_height": 148
+    },
+    {
+      "region": [
+        210,
+        18,
+        97,
+        147
+      ],
+      "anchor": [
+        48.5,
+        147
+      ],
+      "height": 147,
+      "reference_height": 148
+    },
+    {
+      "region": [
+        371,
+        18,
+        99,
+        148
+      ],
+      "anchor": [
+        49.0,
+        148
+      ],
+      "height": 148,
+      "reference_height": 148
+    },
+    {
+      "region": [
+        535,
+        18,
+        98,
+        147
+      ],
+      "anchor": [
+        49.5,
+        147
+      ],
+      "height": 147,
+      "reference_height": 148
+    },
+    {
+      "region": [
+        705,
+        19,
+        101,
+        147
+      ],
+      "anchor": [
+        49.5,
+        147
+      ],
+      "height": 147,
+      "reference_height": 148
+    },
+    {
+      "region": [
+        870,
+        19,
+        98,
+        146
+      ],
+      "anchor": [
+        49.0,
+        146
+      ],
+      "height": 146,
+      "reference_height": 148
+    },
+    {
+      "region": [
+        1034,
+        17,
+        98,
+        148
+      ],
+      "anchor": [
+        51.0,
+        148
+      ],
+      "height": 148,
+      "reference_height": 148
+    },
+    {
+      "region": [
+        1196,
+        18,
+        101,
+        147
+      ],
+      "anchor": [
+        49.5,
+        147
+      ],
+      "height": 147,
+      "reference_height": 148
+    },
+    {
+      "region": [
+        44,
+        187,
+        101,
+        147
+      ],
+      "anchor": [
+        56.5,
+        147
+      ],
+      "height": 147,
+      "reference_height": 147
+    },
+    {
+      "region": [
+        208,
+        187,
+        99,
+        146
+      ],
+      "anchor": [
+        56.5,
+        146
+      ],
+      "height": 146,
+      "reference_height": 147
+    },
+    {
+      "region": [
+        371,
+        188,
+        99,
+        145
+      ],
+      "anchor": [
+        53.5,
+        145
+      ],
+      "height": 145,
+      "reference_height": 147
+    },
+    {
+      "region": [
+        534,
+        187,
+        100,
+        147
+      ],
+      "anchor": [
+        51.0,
+        147
+      ],
+      "height": 147,
+      "reference_height": 147
+    },
+    {
+      "region": [
+        705,
+        188,
+        100,
+        146
+      ],
+      "anchor": [
+        50.0,
+        146
+      ],
+      "height": 146,
+      "reference_height": 147
+    },
+    {
+      "region": [
+        868,
+        187,
+        101,
+        145
+      ],
+      "anchor": [
+        47.5,
+        145
+      ],
+      "height": 145,
+      "reference_height": 147
+    },
+    {
+      "region": [
+        1034,
+        187,
+        99,
+        147
+      ],
+      "anchor": [
+        46.5,
+        147
+      ],
+      "height": 147,
+      "reference_height": 147
+    },
+    {
+      "region": [
+        1196,
+        187,
+        102,
+        146
+      ],
+      "anchor": [
+        49.0,
+        146
+      ],
+      "height": 146,
+      "reference_height": 147
+    },
+    {
+      "region": [
+        43,
+        348,
+        113,
+        150
+      ],
+      "anchor": [
+        54.5,
+        150
+      ],
+      "height": 150,
+      "reference_height": 150
+    },
+    {
+      "region": [
+        210,
+        348,
+        109,
+        149
+      ],
+      "anchor": [
+        48.0,
+        149
+      ],
+      "height": 149,
+      "reference_height": 150
+    },
+    {
+      "region": [
+        371,
+        348,
+        111,
+        150
+      ],
+      "anchor": [
+        51.5,
+        150
+      ],
+      "height": 150,
+      "reference_height": 150
+    },
+    {
+      "region": [
+        539,
+        348,
+        102,
+        150
+      ],
+      "anchor": [
+        46.5,
+        150
+      ],
+      "height": 150,
+      "reference_height": 150
+    },
+    {
+      "region": [
+        707,
+        348,
+        96,
+        150
+      ],
+      "anchor": [
+        46.0,
+        150
+      ],
+      "height": 150,
+      "reference_height": 150
+    },
+    {
+      "region": [
+        872,
+        348,
+        96,
+        150
+      ],
+      "anchor": [
+        50.0,
+        150
+      ],
+      "height": 150,
+      "reference_height": 150
+    },
+    {
+      "region": [
+        1038,
+        348,
+        95,
+        150
+      ],
+      "anchor": [
+        46.5,
+        150
+      ],
+      "height": 150,
+      "reference_height": 150
+    },
+    {
+      "region": [
+        1202,
+        348,
+        95,
+        150
+      ],
+      "anchor": [
+        45.0,
+        150
+      ],
+      "height": 150,
+      "reference_height": 150
+    },
+    {
+      "region": [
+        37,
+        516,
+        114,
+        146
+      ],
+      "anchor": [
+        62.5,
+        146
+      ],
+      "height": 146,
+      "reference_height": 146
+    },
+    {
+      "region": [
+        203,
+        516,
+        108,
+        146
+      ],
+      "anchor": [
+        59.0,
+        146
+      ],
+      "height": 146,
+      "reference_height": 146
+    },
+    {
+      "region": [
+        366,
+        516,
+        111,
+        146
+      ],
+      "anchor": [
+        58.5,
+        146
+      ],
+      "height": 146,
+      "reference_height": 146
+    },
+    {
+      "region": [
+        530,
+        516,
+        111,
+        145
+      ],
+      "anchor": [
+        58.5,
+        145
+      ],
+      "height": 145,
+      "reference_height": 146
+    },
+    {
+      "region": [
+        696,
+        516,
+        110,
+        145
+      ],
+      "anchor": [
+        57.5,
+        145
+      ],
+      "height": 145,
+      "reference_height": 146
+    },
+    {
+      "region": [
+        861,
+        516,
+        108,
+        146
+      ],
+      "anchor": [
+        54.5,
+        146
+      ],
+      "height": 146,
+      "reference_height": 146
+    },
+    {
+      "region": [
+        1027,
+        516,
+        107,
+        146
+      ],
+      "anchor": [
+        54.0,
+        146
+      ],
+      "height": 146,
+      "reference_height": 146
+    },
+    {
+      "region": [
+        1194,
+        516,
+        109,
+        146
+      ],
+      "anchor": [
+        51.0,
+        146
+      ],
+      "height": 146,
+      "reference_height": 146
+    },
+    {
+      "region": [
+        42,
+        679,
+        113,
+        149
+      ],
+      "anchor": [
+        57.0,
+        149
+      ],
+      "height": 149,
+      "reference_height": 151
+    },
+    {
+      "region": [
+        209,
+        679,
+        106,
+        149
+      ],
+      "anchor": [
+        52.0,
+        149
+      ],
+      "height": 149,
+      "reference_height": 151
+    },
+    {
+      "region": [
+        366,
+        679,
+        113,
+        151
+      ],
+      "anchor": [
+        57.0,
+        151
+      ],
+      "height": 151,
+      "reference_height": 151
+    },
+    {
+      "region": [
+        529,
+        679,
+        112,
+        150
+      ],
+      "anchor": [
+        58.5,
+        150
+      ],
+      "height": 150,
+      "reference_height": 151
+    },
+    {
+      "region": [
+        697,
+        679,
+        109,
+        149
+      ],
+      "anchor": [
+        55.5,
+        149
+      ],
+      "height": 149,
+      "reference_height": 150
+    },
+    {
+      "region": [
+        864,
+        679,
+        101,
+        149
+      ],
+      "anchor": [
+        51.5,
+        149
+      ],
+      "height": 149,
+      "reference_height": 150
+    },
+    {
+      "region": [
+        1028,
+        679,
+        99,
+        150
+      ],
+      "anchor": [
+        53.5,
+        150
+      ],
+      "height": 150,
+      "reference_height": 150
+    },
+    {
+      "region": [
+        1187,
+        679,
+        110,
+        149
+      ],
+      "anchor": [
+        57.0,
+        149
+      ],
+      "height": 149,
+      "reference_height": 150
+    },
+    {
+      "region": [
+        33,
+        842,
+        118,
+        151
+      ],
+      "anchor": [
+        68.5,
+        151
+      ],
+      "height": 151,
+      "reference_height": 151
+    },
+    {
+      "region": [
+        197,
+        842,
+        117,
+        150
+      ],
+      "anchor": [
+        65.5,
+        150
+      ],
+      "height": 150,
+      "reference_height": 151
+    },
+    {
+      "region": [
+        359,
+        842,
+        119,
+        150
+      ],
+      "anchor": [
+        69.0,
+        150
+      ],
+      "height": 150,
+      "reference_height": 151
+    },
+    {
+      "region": [
+        525,
+        842,
+        117,
+        151
+      ],
+      "anchor": [
+        62.5,
+        151
+      ],
+      "height": 151,
+      "reference_height": 151
+    },
+    {
+      "region": [
+        701,
+        843,
+        110,
+        149
+      ],
+      "anchor": [
+        52.5,
+        149
+      ],
+      "height": 149,
+      "reference_height": 150
+    },
+    {
+      "region": [
+        864,
+        843,
+        111,
+        146
+      ],
+      "anchor": [
+        52.0,
+        146
+      ],
+      "height": 146,
+      "reference_height": 150
+    },
+    {
+      "region": [
+        1028,
+        843,
+        114,
+        150
+      ],
+      "anchor": [
+        55.0,
+        150
+      ],
+      "height": 150,
+      "reference_height": 150
+    },
+    {
+      "region": [
+        1192,
+        843,
+        113,
+        150
+      ],
+      "anchor": [
+        52.0,
+        150
+      ],
+      "height": 150,
+      "reference_height": 150
+    },
+    {
+      "region": [
+        45,
+        1010,
+        100,
+        146
+      ],
+      "anchor": [
+        54.0,
+        146
+      ],
+      "height": 146,
+      "reference_height": 146
+    },
+    {
+      "region": [
+        209,
+        1011,
+        96,
+        145
+      ],
+      "anchor": [
+        48.5,
+        145
+      ],
+      "height": 145,
+      "reference_height": 146
+    },
+    {
+      "region": [
+        373,
+        1010,
+        96,
+        146
+      ],
+      "anchor": [
+        52.5,
+        146
+      ],
+      "height": 146,
+      "reference_height": 146
+    },
+    {
+      "region": [
+        537,
+        1011,
+        96,
+        145
+      ],
+      "anchor": [
+        49.0,
+        145
+      ],
+      "height": 145,
+      "reference_height": 146
+    },
+    {
+      "region": [
+        707,
+        1012,
+        95,
+        144
+      ],
+      "anchor": [
+        47.0,
+        144
+      ],
+      "height": 144,
+      "reference_height": 145
+    },
+    {
+      "region": [
+        867,
+        1012,
+        96,
+        144
+      ],
+      "anchor": [
+        48.5,
+        144
+      ],
+      "height": 144,
+      "reference_height": 145
+    },
+    {
+      "region": [
+        1035,
+        1011,
+        94,
+        145
+      ],
+      "anchor": [
+        50.0,
+        145
+      ],
+      "height": 145,
+      "reference_height": 145
+    },
+    {
+      "region": [
+        1196,
+        1011,
+        97,
+        145
+      ],
+      "anchor": [
+        47.5,
+        145
+      ],
+      "height": 145,
+      "reference_height": 145
+    }
+  ],
+  "south": [
+    {
+      "region": [
+        51,
+        16,
+        146,
+        213
+      ],
+      "anchor": [
+        75.5,
+        213
+      ],
+      "height": 213,
+      "reference_height": 213
+    },
+    {
+      "region": [
+        286,
+        16,
+        143,
+        213
+      ],
+      "anchor": [
+        76.0,
+        213
+      ],
+      "height": 213,
+      "reference_height": 213
+    },
+    {
+      "region": [
+        519,
+        16,
+        144,
+        213
+      ],
+      "anchor": [
+        73.0,
+        213
+      ],
+      "height": 213,
+      "reference_height": 213
+    },
+    {
+      "region": [
+        752,
+        16,
+        146,
+        213
+      ],
+      "anchor": [
+        78.5,
+        213
+      ],
+      "height": 213,
+      "reference_height": 213
+    },
+    {
+      "region": [
+        49,
+        253,
+        150,
+        207
+      ],
+      "anchor": [
+        76.5,
+        207
+      ],
+      "height": 207,
+      "reference_height": 209
+    },
+    {
+      "region": [
+        285,
+        254,
+        149,
+        209
+      ],
+      "anchor": [
+        72.5,
+        209
+      ],
+      "height": 209,
+      "reference_height": 209
+    },
+    {
+      "region": [
+        516,
+        253,
+        150,
+        207
+      ],
+      "anchor": [
+        77.0,
+        207
+      ],
+      "height": 207,
+      "reference_height": 209
+    },
+    {
+      "region": [
+        752,
+        253,
+        149,
+        209
+      ],
+      "anchor": [
+        76.0,
+        209
+      ],
+      "height": 209,
+      "reference_height": 209
+    },
+    {
+      "region": [
+        47,
+        483,
+        154,
+        212
+      ],
+      "anchor": [
+        79.5,
+        212
+      ],
+      "height": 212,
+      "reference_height": 216
+    },
+    {
+      "region": [
+        281,
+        483,
+        154,
+        212
+      ],
+      "anchor": [
+        77.5,
+        212
+      ],
+      "height": 212,
+      "reference_height": 216
+    },
+    {
+      "region": [
+        515,
+        483,
+        152,
+        212
+      ],
+      "anchor": [
+        78.5,
+        212
+      ],
+      "height": 212,
+      "reference_height": 216
+    },
+    {
+      "region": [
+        750,
+        483,
+        151,
+        216
+      ],
+      "anchor": [
+        76.0,
+        216
+      ],
+      "height": 216,
+      "reference_height": 216
+    },
+    {
+      "region": [
+        38,
+        720,
+        162,
+        228
+      ],
+      "anchor": [
+        87.5,
+        228
+      ],
+      "height": 228,
+      "reference_height": 228
+    },
+    {
+      "region": [
+        273,
+        720,
+        161,
+        228
+      ],
+      "anchor": [
+        92.5,
+        228
+      ],
+      "height": 228,
+      "reference_height": 228
+    },
+    {
+      "region": [
+        508,
+        721,
+        160,
+        227
+      ],
+      "anchor": [
+        86.5,
+        227
+      ],
+      "height": 227,
+      "reference_height": 228
+    },
+    {
+      "region": [
+        741,
+        721,
+        160,
+        227
+      ],
+      "anchor": [
+        91.0,
+        227
+      ],
+      "height": 227,
+      "reference_height": 228
+    },
+    {
+      "region": [
+        50,
+        948,
+        149,
+        237
+      ],
+      "anchor": [
+        69.0,
+        237
+      ],
+      "height": 237,
+      "reference_height": 237
+    },
+    {
+      "region": [
+        286,
+        948,
+        147,
+        237
+      ],
+      "anchor": [
+        64.5,
+        237
+      ],
+      "height": 237,
+      "reference_height": 237
+    },
+    {
+      "region": [
+        521,
+        948,
+        146,
+        237
+      ],
+      "anchor": [
+        65.0,
+        237
+      ],
+      "height": 237,
+      "reference_height": 237
+    },
+    {
+      "region": [
+        755,
+        948,
+        146,
+        237
+      ],
+      "anchor": [
+        64.5,
+        237
+      ],
+      "height": 237,
+      "reference_height": 237
+    },
+    {
+      "region": [
+        41,
+        1185,
+        158,
+        211
+      ],
+      "anchor": [
+        87.0,
+        211
+      ],
+      "height": 211,
+      "reference_height": 215
+    },
+    {
+      "region": [
+        274,
+        1185,
+        159,
+        215
+      ],
+      "anchor": [
+        90.0,
+        215
+      ],
+      "height": 215,
+      "reference_height": 215
+    },
+    {
+      "region": [
+        508,
+        1185,
+        158,
+        211
+      ],
+      "anchor": [
+        86.5,
+        211
+      ],
+      "height": 211,
+      "reference_height": 215
+    },
+    {
+      "region": [
+        744,
+        1185,
+        157,
+        215
+      ],
+      "anchor": [
+        85.5,
+        215
+      ],
+      "height": 215,
+      "reference_height": 215
+    },
+    {
+      "region": [
+        53,
+        1425,
+        141,
+        211
+      ],
+      "anchor": [
+        73.0,
+        211
+      ],
+      "height": 211,
+      "reference_height": 211
+    },
+    {
+      "region": [
+        289,
+        1426,
+        138,
+        209
+      ],
+      "anchor": [
+        70.5,
+        209
+      ],
+      "height": 209,
+      "reference_height": 211
+    },
+    {
+      "region": [
+        521,
+        1426,
+        140,
+        209
+      ],
+      "anchor": [
+        72.0,
+        209
+      ],
+      "height": 209,
+      "reference_height": 211
+    },
+    {
+      "region": [
+        756,
+        1426,
+        141,
+        211
+      ],
+      "anchor": [
+        75.0,
+        211
+      ],
+      "height": 211,
+      "reference_height": 211
+    }
+  ]
+}

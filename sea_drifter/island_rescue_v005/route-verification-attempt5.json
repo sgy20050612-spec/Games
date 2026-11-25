@@ -1,0 +1,986 @@
+{
+  "runs": [
+    {
+      "days": [
+        {
+          "core": 280.0,
+          "day": 1,
+          "earned_research": 3.0,
+          "hp": 150.0,
+          "islands": [
+            {
+              "hp": 280.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 150.0,
+              "level": 1,
+              "status": "LOCKED"
+            },
+            {
+              "hp": 150.0,
+              "level": 1,
+              "status": "LOCKED"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 1,
+          "stock": [
+            40.0,
+            10.0,
+            5.99999999999999,
+            56.0
+          ],
+          "tech": 2
+        },
+        {
+          "core": 280.0,
+          "day": 2,
+          "earned_research": 5.0,
+          "hp": 150.0,
+          "islands": [
+            {
+              "hp": 280.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 150.0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 150.0,
+              "level": 1,
+              "status": "LOCKED"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 1,
+          "stock": [
+            15.9999999999999,
+            10.0,
+            5.99999999999999,
+            55.0
+          ],
+          "tech": 2
+        },
+        {
+          "core": 280.0,
+          "day": 3,
+          "earned_research": 7.0,
+          "hp": 140.0,
+          "islands": [
+            {
+              "hp": 280.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 145.0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 150.0,
+              "level": 1,
+              "status": "OWNED"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 1,
+          "stock": [
+            6.99999999999978,
+            39.9999999999998,
+            14.0,
+            50.0
+          ],
+          "tech": 2
+        },
+        {
+          "core": 251.0,
+          "day": 4,
+          "earned_research": 10.0,
+          "hp": 150.0,
+          "islands": [
+            {
+              "hp": 251.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 115.0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "TO_RECLAIM"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 1,
+          "stock": [
+            83.0000000000004,
+            80.0000000000001,
+            20.0,
+            79.0
+          ],
+          "tech": 2
+        },
+        {
+          "core": 249.0,
+          "day": 5,
+          "earned_research": 10.0,
+          "hp": 150.0,
+          "islands": [
+            {
+              "hp": 249.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 54.0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "TO_RECLAIM"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 1,
+          "stock": [
+            69.0000000000009,
+            69.0000000000001,
+            23.0000000000001,
+            19.0
+          ],
+          "tech": 3
+        },
+        {
+          "core": 205.0,
+          "day": 6,
+          "earned_research": 11.0,
+          "hp": 155.0,
+          "islands": [
+            {
+              "hp": 205.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "TO_RECLAIM"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 1,
+          "stock": [
+            54.0000000000013,
+            56.9999999999999,
+            26.0000000000001,
+            30.0
+          ],
+          "tech": 3
+        },
+        {
+          "core": 260.0,
+          "day": 7,
+          "earned_research": 12.0,
+          "hp": 150.0,
+          "islands": [
+            {
+              "hp": 260.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "TO_RECLAIM"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 1,
+          "stock": [
+            18.0000000000017,
+            34.9999999999997,
+            29.0000000000001,
+            42.0
+          ],
+          "tech": 3
+        },
+        {
+          "core": 195.0,
+          "day": 8,
+          "earned_research": 15.0,
+          "hp": 165.0,
+          "islands": [
+            {
+              "hp": 195.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "TO_RECLAIM"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 1,
+          "stock": [
+            8.0000000000019,
+            25.9999999999995,
+            32.0000000000002,
+            53.0
+          ],
+          "tech": 3
+        },
+        {
+          "core": 54.0,
+          "day": 9,
+          "earned_research": 15.0,
+          "hp": 164.0,
+          "islands": [
+            {
+              "hp": 54.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "TO_RECLAIM"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 1,
+          "stock": [
+            8.00000000000212,
+            21.9999999999994,
+            35.0000000000002,
+            64.0
+          ],
+          "tech": 4
+        },
+        {
+          "core": 0,
+          "day": 10,
+          "earned_research": 16.0,
+          "hp": 164.0,
+          "islands": [
+            {
+              "hp": 0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "OWNED"
+            }
+          ],
+          "phase": "BE",
+          "resident_tree": 1,
+          "stock": [
+            8.00000000000234,
+            17.9999999999992,
+            38.0000000000003,
+            36.0
+          ],
+          "tech": 4
+        }
+      ],
+      "ending": "BE",
+      "route": "tech",
+      "ticks": 35544
+    },
+    {
+      "days": [
+        {
+          "core": 280.0,
+          "day": 1,
+          "earned_research": 3.0,
+          "hp": 150.0,
+          "islands": [
+            {
+              "hp": 280.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 150.0,
+              "level": 1,
+              "status": "LOCKED"
+            },
+            {
+              "hp": 150.0,
+              "level": 1,
+              "status": "LOCKED"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 2,
+          "stock": [
+            40.0,
+            10.0,
+            5.99999999999999,
+            56.0
+          ],
+          "tech": 1
+        },
+        {
+          "core": 280.0,
+          "day": 2,
+          "earned_research": 5.0,
+          "hp": 140.0,
+          "islands": [
+            {
+              "hp": 280.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 150.0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 150.0,
+              "level": 1,
+              "status": "LOCKED"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 2,
+          "stock": [
+            15.9999999999999,
+            10.0,
+            5.99999999999999,
+            55.0
+          ],
+          "tech": 1
+        },
+        {
+          "core": 270.0,
+          "day": 3,
+          "earned_research": 7.0,
+          "hp": 130.0,
+          "islands": [
+            {
+              "hp": 270.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 150.0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 150.0,
+              "level": 1,
+              "status": "OWNED"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 2,
+          "stock": [
+            6.99999999999978,
+            0.0,
+            5.99999999999999,
+            50.0
+          ],
+          "tech": 1
+        },
+        {
+          "core": 260.0,
+          "day": 4,
+          "earned_research": 10.0,
+          "hp": 155.0,
+          "islands": [
+            {
+              "hp": 260.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 135.0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "TO_RECLAIM"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 2,
+          "stock": [
+            83.0000000000004,
+            39.9999999999998,
+            12.0,
+            35.0
+          ],
+          "tech": 1
+        },
+        {
+          "core": 254.0,
+          "day": 5,
+          "earned_research": 10.0,
+          "hp": 145.0,
+          "islands": [
+            {
+              "hp": 254.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 94.0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 95.0,
+              "level": 1,
+              "status": "OWNED"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 3,
+          "stock": [
+            73.000000000001,
+            30.9999999999996,
+            15.0,
+            18.0
+          ],
+          "tech": 1
+        },
+        {
+          "core": 215.0,
+          "day": 6,
+          "earned_research": 11.0,
+          "hp": 145.0,
+          "islands": [
+            {
+              "hp": 215.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 56.0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "OWNED"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 3,
+          "stock": [
+            108.000000000002,
+            43.9999999999994,
+            18.0,
+            26.0
+          ],
+          "tech": 1
+        },
+        {
+          "core": 247.0,
+          "day": 7,
+          "earned_research": 12.0,
+          "hp": 147.0,
+          "islands": [
+            {
+              "hp": 247.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "OWNED"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 3,
+          "stock": [
+            124.000000000002,
+            47.9999999999992,
+            21.0,
+            33.0
+          ],
+          "tech": 1
+        },
+        {
+          "core": 218.0,
+          "day": 8,
+          "earned_research": 12.0,
+          "hp": 157.0,
+          "islands": [
+            {
+              "hp": 218.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "TO_RECLAIM"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 3,
+          "stock": [
+            156.000000000001,
+            59.999999999999,
+            24.0000000000001,
+            20.0
+          ],
+          "tech": 1
+        },
+        {
+          "core": 149.0,
+          "day": 9,
+          "earned_research": 15.0,
+          "hp": 156.0,
+          "islands": [
+            {
+              "hp": 149.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "OWNED"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 3,
+          "stock": [
+            126.000000000002,
+            40.9999999999988,
+            27.0000000000001,
+            29.0
+          ],
+          "tech": 1
+        },
+        {
+          "core": 159.5,
+          "day": 10,
+          "earned_research": 16.0,
+          "hp": 156.0,
+          "islands": [
+            {
+              "hp": 159.5,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "OWNED"
+            }
+          ],
+          "phase": "NE",
+          "resident_tree": 4,
+          "stock": [
+            132.000000000002,
+            39.9999999999987,
+            30.0000000000001,
+            34.0
+          ],
+          "tech": 1
+        }
+      ],
+      "ending": "NE",
+      "route": "resident",
+      "ticks": 36400
+    },
+    {
+      "days": [
+        {
+          "core": 280.0,
+          "day": 1,
+          "earned_research": 3.0,
+          "hp": 150.0,
+          "islands": [
+            {
+              "hp": 280.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 150.0,
+              "level": 1,
+              "status": "LOCKED"
+            },
+            {
+              "hp": 150.0,
+              "level": 1,
+              "status": "LOCKED"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 1,
+          "stock": [
+            40.0,
+            10.0,
+            5.99999999999999,
+            56.0
+          ],
+          "tech": 2
+        },
+        {
+          "core": 280.0,
+          "day": 2,
+          "earned_research": 5.0,
+          "hp": 150.0,
+          "islands": [
+            {
+              "hp": 280.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 150.0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 150.0,
+              "level": 1,
+              "status": "LOCKED"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 1,
+          "stock": [
+            15.9999999999999,
+            10.0,
+            5.99999999999999,
+            55.0
+          ],
+          "tech": 2
+        },
+        {
+          "core": 280.0,
+          "day": 3,
+          "earned_research": 7.0,
+          "hp": 145.0,
+          "islands": [
+            {
+              "hp": 280.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 145.0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 150.0,
+              "level": 1,
+              "status": "OWNED"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 2,
+          "stock": [
+            6.99999999999978,
+            39.9999999999998,
+            14.0,
+            50.0
+          ],
+          "tech": 2
+        },
+        {
+          "core": 251.0,
+          "day": 4,
+          "earned_research": 10.0,
+          "hp": 155.0,
+          "islands": [
+            {
+              "hp": 251.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 125.0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "TO_RECLAIM"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 2,
+          "stock": [
+            83.0000000000004,
+            80.0000000000001,
+            20.0,
+            79.0
+          ],
+          "tech": 2
+        },
+        {
+          "core": 249.0,
+          "day": 5,
+          "earned_research": 10.0,
+          "hp": 150.0,
+          "islands": [
+            {
+              "hp": 249.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 87.0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "TO_RECLAIM"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 2,
+          "stock": [
+            69.0000000000009,
+            69.0000000000001,
+            23.0000000000001,
+            19.0
+          ],
+          "tech": 2
+        },
+        {
+          "core": 205.0,
+          "day": 6,
+          "earned_research": 11.0,
+          "hp": 140.0,
+          "islands": [
+            {
+              "hp": 205.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 39.0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "TO_RECLAIM"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 2,
+          "stock": [
+            54.0000000000013,
+            56.9999999999999,
+            26.0000000000001,
+            21.0
+          ],
+          "tech": 3
+        },
+        {
+          "core": 239.0,
+          "day": 7,
+          "earned_research": 12.0,
+          "hp": 150.0,
+          "islands": [
+            {
+              "hp": 239.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "TO_RECLAIM"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 2,
+          "stock": [
+            18.0000000000017,
+            34.9999999999997,
+            29.0000000000001,
+            22.0
+          ],
+          "tech": 3
+        },
+        {
+          "core": 174.0,
+          "day": 8,
+          "earned_research": 15.0,
+          "hp": 155.0,
+          "islands": [
+            {
+              "hp": 174.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "TO_RECLAIM"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 2,
+          "stock": [
+            18.0000000000021,
+            30.9999999999996,
+            32.0000000000002,
+            24.0
+          ],
+          "tech": 3
+        },
+        {
+          "core": 2.0,
+          "day": 9,
+          "earned_research": 15.0,
+          "hp": 164.0,
+          "islands": [
+            {
+              "hp": 2.0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "TO_RECLAIM"
+            }
+          ],
+          "phase": "RESULT",
+          "resident_tree": 2,
+          "stock": [
+            18.0000000000025,
+            26.9999999999995,
+            35.0000000000002,
+            33.0
+          ],
+          "tech": 3
+        },
+        {
+          "core": 0,
+          "day": 10,
+          "earned_research": 16.0,
+          "hp": 164.0,
+          "islands": [
+            {
+              "hp": 0,
+              "level": 2,
+              "status": "OWNED"
+            },
+            {
+              "hp": 0,
+              "level": 1,
+              "status": "OWNED"
+            },
+            {
+              "hp": 125.0,
+              "level": 1,
+              "status": "OWNED"
+            }
+          ],
+          "phase": "BE",
+          "resident_tree": 3,
+          "stock": [
+            18.0000000000028,
+            22.9999999999994,
+            38.0000000000003,
+            45.0
+          ],
+          "tech": 3
+        }
+      ],
+      "ending": "BE",
+      "route": "mixed",
+      "ticks": 34921
+    }
+  ],
+  "scope": "unmodified initial resources and paid player commands; controller failure does not prove route impossible"
+}

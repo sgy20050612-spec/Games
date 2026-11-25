@@ -1,0 +1,5 @@
+{
+  "checks": 14,
+  "failures": [],
+  "scope": "rendered UI callbacks and drag/drop handlers; not OS mouse/keyboard acceptance"
+}

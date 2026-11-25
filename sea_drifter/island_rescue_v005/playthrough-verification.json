@@ -1,0 +1,143 @@
+{
+  "core_hp": 280.0,
+  "elapsed_simulated_seconds": 242.850000000021,
+  "errors": [],
+  "events": [
+    {
+      "at": 0.0,
+      "day": 1,
+      "event": "real initial state",
+      "passed": true,
+      "phase": "DAY"
+    },
+    {
+      "at": 3.2,
+      "day": 1,
+      "event": "rescue unassigned resident through proximity interaction",
+      "passed": true,
+      "phase": "DAY"
+    },
+    {
+      "at": 3.2,
+      "day": 1,
+      "event": "manually assign first builder on day1",
+      "passed": true,
+      "phase": "DAY"
+    },
+    {
+      "at": 44.8499999999996,
+      "day": 1,
+      "event": "gather wood using actual nodes and gathering rate",
+      "passed": true,
+      "phase": "DAY"
+    },
+    {
+      "at": 72.649999999998,
+      "day": 1,
+      "event": "gather stone using actual nodes and gathering rate",
+      "passed": true,
+      "phase": "DAY"
+    },
+    {
+      "at": 75.4999999999979,
+      "day": 1,
+      "event": "legal defensive wall placement",
+      "passed": true,
+      "phase": "DAY"
+    },
+    {
+      "at": 78.7499999999977,
+      "day": 1,
+      "event": "resident completes construction on site",
+      "passed": true,
+      "phase": "DAY"
+    },
+    {
+      "at": 82.6499999999974,
+      "day": 1,
+      "event": "upgrade core with earned resources",
+      "passed": true,
+      "phase": "DAY"
+    },
+    {
+      "at": 82.6499999999974,
+      "day": 1,
+      "event": "buy tower technology with actual core research reward",
+      "passed": true,
+      "phase": "DAY"
+    },
+    {
+      "at": 182.000000000007,
+      "day": 1,
+      "event": "survive first night without modified health",
+      "passed": true,
+      "phase": "RESULT"
+    },
+    {
+      "at": 182.000000000007,
+      "day": 2,
+      "event": "advance to day2 through normal result continuation",
+      "passed": true,
+      "phase": "DAY"
+    },
+    {
+      "at": 183.550000000007,
+      "day": 2,
+      "event": "rescue second-day residents",
+      "passed": true,
+      "phase": "DAY"
+    },
+    {
+      "at": 183.550000000007,
+      "day": 2,
+      "event": "unassigned story residents do not occupy jobs",
+      "passed": true,
+      "phase": "DAY"
+    },
+    {
+      "at": 223.650000000017,
+      "day": 2,
+      "event": "gather day2 dock materials from regenerated nodes",
+      "passed": true,
+      "phase": "DAY"
+    },
+    {
+      "at": 227.850000000018,
+      "day": 2,
+      "event": "repair main dock with actual materials",
+      "passed": true,
+      "phase": "DAY"
+    },
+    {
+      "at": 232.900000000019,
+      "day": 2,
+      "event": "first landing brings a builder to side island",
+      "passed": true,
+      "phase": "DAY"
+    },
+    {
+      "at": 237.80000000002,
+      "day": 2,
+      "event": "build side dock through resident construction",
+      "passed": true,
+      "phase": "DAY"
+    },
+    {
+      "at": 242.850000000021,
+      "day": 2,
+      "event": "return to main island before second sunset",
+      "passed": true,
+      "phase": "DAY"
+    }
+  ],
+  "player_hp": 150.0,
+  "resources": [
+    20.0000000000012,
+    9.99999999999996,
+    0.0,
+    19.0
+  ],
+  "scope": "automated real-input first-day and day2 rescue integration; not human acceptance or ten-day balance",
+  "state": "passed",
+  "ticks": 4857
+}

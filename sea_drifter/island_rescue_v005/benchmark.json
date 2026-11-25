@@ -1,0 +1,10 @@
+{
+  "buildings_per_island": 45,
+  "fixture": "stress data, not legal placement or route progression",
+  "initial_enemies": 120,
+  "initial_residents": 40,
+  "max_ms": 20.176,
+  "mean_ms": 5.57965,
+  "p95_ms": 13.05,
+  "target_ms": 3
+}
