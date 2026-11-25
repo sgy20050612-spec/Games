@@ -6,5 +6,9 @@
 - [原始策划案 GDD v0.9](GDD_v0.9.md)
 - [当前规则与最新变更](变更说明_v0.0.5_岗位与物品栏.md)
 - [角色、怪物、环境美术图集](assets/art/)
-- [游戏截图与动画](previews/)
+- [新版游戏主界面](previews/38-header-removed.png) · [新版角色与物品栏](previews/34-inventory-information.png)
 - [程序与 Shader](scripts/)
+
+![v0.0.5 游戏主界面](previews/38-header-removed.png)
+
+![v0.0.5 角色与物品栏](previews/34-inventory-information.png)
