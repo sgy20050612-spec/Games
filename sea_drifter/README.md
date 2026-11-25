@@ -1,3 +1,15 @@
+## 最新文件位置
+
+最新版采用独立子目录，避免覆盖旧工程。请从下面的链接进入：
+
+- [美术PNG图集（角色、怪物、环境）](island_rescue_v005/assets/art/)
+- [全部素材（字体、音效、音乐、授权）](island_rescue_v005/assets/)
+- [程序与水面/像素材质shader](island_rescue_v005/scripts/)
+- [设计文档与最新修改说明](island_rescue_v005/)
+- [实际游戏截图和动画预览](island_rescue_v005/previews/)
+
+水面、光照及界面部分由程序和shader绘制，不是独立PNG贴图。
+
 # 海岛～拯救！
 
 最新完整版本：**v0.0.5**（2026-11-25 同步）。
