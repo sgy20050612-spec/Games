@@ -1,1 +1,14 @@
 .godot/
+build/
+previews/
+tools/*.log
+tools/*.json
+tools/Godot*
+tools/godot
+*.tar.gz
+*.tpz
+*.zip
+tools/browser-env/
+tools/play-profile/
+tools/*.png
+tools/*.pid
