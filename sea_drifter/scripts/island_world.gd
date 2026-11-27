@@ -40,7 +40,7 @@ func _init(game, definition):
 				cell.x = (cell.x + 1) % (n-3) + 1
 				if cell.x % 3 == 0: cell.y = (cell.y + 2) % (n-3) + 1
 			var amount = [15,10,8,12][kind]
-			if cfg.nodes[kind] == 1 and kind == 2: amount = 6
+			if cfg.nodes[kind] == 1 and kind == 2: amount = 60
 			s.nodes.append({"kind":kind,"cell":cell,"amount":float(amount),"max":float(amount),"form":"log" if kind==0 and j%2==0 else "natural"})
 			index += 1
 
@@ -691,7 +691,9 @@ func tick(dt):
 				r.pos = move_resident(r,Vector2(near.cell)*32+Vector2(16,16),70,dt)
 				if r.pos.distance_to(Vector2(near.cell)*32+Vector2(16,16)) < 24:
 					var amount = min(near.amount,([1.5,1.0,0,2.0][kind])*factor*dt)
-					near.amount -= g.gain(kind,amount*(1+s.bonus))/(1+s.bonus)
+					var collected = g.gain_resident_resource(kind,amount*(1+s.bonus))/(1+s.bonus)
+					near.amount -= collected
+					if collected > 0 and g.player_is_here(self): g.add_xp(int(ceil(collected)))
 		if r.station=="mortar" and building_index.has(r.job) and building_index[r.job].kind=="mortar_array":
 			var array=building_index[r.job]
 			r.pos=move_resident(r,pos(array)+Vector2(0,g.rules.buildings.mortar_array.h*16+15),70,dt)
@@ -829,3 +831,8 @@ func dawn():
 			g.resources[3] -= cost
 			r.hp = r.max_hp
 			r.retreated = false
+
+
+
+
+
