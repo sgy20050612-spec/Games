@@ -25,6 +25,7 @@ var drag_facing=Vector2.DOWN
 var cursor = Vector2.ZERO
 var ui_scale_applied=false
 var inventory_cells=[]
+var warehouse_cells=[]
 var inventory_drag=-1
 var inventory_drag_origin=Vector2.ZERO
 var workshop_id=""
@@ -362,7 +363,11 @@ func hud():
 		y+=73
 	wood(Rect2(12,height-75,width-24,64))
 	label_at(g.message.left(66),Vector2(27,height-51),16)
-	if preferences.values.tutorial:label_at("WASD移动  E交互/按住采集  B建造  左键攻击  F食物回血  U升级核心  Tab菜单",Vector2(27,height-27),14)
+	panel(Rect2(width-48,height-156,28,126),Color("3b2d2b"))
+	var hp_ratio=clamp(g.player.hp/max(1.0,g.player.max_hp),0.0,1.0)
+	box(Rect2(width-39,height-146,10,106),Color("542f32"))
+	box(Rect2(width-39,height-40-106*hp_ratio,10,106*hp_ratio),Color("c65d5d"))
+	if preferences.values.tutorial:label_at("WASD移动  E交互/按住采集  B建造  左键攻击  右键食物回血  U升级核心  Tab菜单",Vector2(27,height-27),14)
 	for i in range(first_button,ui_buttons.size()):
 		ui_buttons[i].rect=Rect2(ui_buttons[i].rect.position*scale_value,ui_buttons[i].rect.size*scale_value);ui_buttons[i].screen_space=true
 	set_ui_transform()
@@ -655,6 +660,25 @@ func character_ui():
 	if item!=null:label_at("手持："+g.items.NAMES[item.kind]+" Lv.%d"%item.level+(" · 玩家专属" if item.exclusive else ""),Vector2(224,338),14)
 	if inventory_drag>=0:item_icon(g.inventory[inventory_drag],Rect2(cursor-Vector2(30,25),Vector2(60,50)))
 
+func warehouse_ui():
+	warehouse_cells=[]
+	panel(Rect2(49,177,1050,170),Color("d9b77e"))
+	label_at("核心仓库 · 三座岛共享",Vector2(69,207),22)
+	label_at("核心仓库容量与玩家背包分开显示；仓库建筑提升核心仓库堆叠上限。",Vector2(69,235),15)
+	for i in range(36):
+		var top=Rect2(68+(i%12)*85,250+floor(i/12.0)*32,80,26)
+		panel(top,Color("e5c48a"),Color("a47642"))
+		warehouse_cells.append({"rect":top,"index":i,"source":"warehouse"})
+	for i in range(36):
+		item_icon(g.warehouse[i],warehouse_cells[i].rect)
+		label_at("玩家物品栏",Vector2(69,359),19)
+	for i in range(36):
+		var rect=Rect2(68+(i%12)*85,374+floor(i/12.0)*32,80,26)
+		panel(rect,Color("ffc77f"),Color("c78342"))
+		item_icon(g.inventory[i],rect)
+		warehouse_cells.append({"rect":rect,"index":i,"source":"bag"})
+	label_at("点击上方取出资源，点击下方资源格存入核心仓库。每座仓库使单格上限 +5。",Vector2(69,535),15)
+
 func workshop_ui():
 	label_at("工匠：打造与升级",Vector2(66,203),22)
 	label_at("打造后放入物品栏；选择装备后，右键居民交付。",Vector2(66,231),16)
@@ -679,6 +703,9 @@ func workshop_ui():
 func interact_action():
 	var w=g.current()
 	if w.s.buildings.any(func(b):return b.kind=="mortar_array" and b.progress>=b.duration and w.pos(b).distance_to(g.player.pos)<85):g.interact();return
+	if w.pos(w.core()).distance_to(g.player.pos)<110:
+		menu="warehouse"
+		return
 	if g.player.pos.distance_to(w.camp_position())>=75:
 		for r in w.builders():
 			if r.travel<=0 and r.pos.distance_to(g.player.pos)<80:workshop_id=r.id;menu="workshop";return
@@ -705,7 +732,7 @@ func settings_ui():
 		button(Rect2(592,362,165,42),"取消",func():save_confirm=-1)
 
 func info_ui():
-	var lines=["比勒加群岛 · 十日重建", "白天100秒 → 入夜2秒 → 夜晚80秒；三岛同步受袭。", "E救援无业居民；Tab分配工匠；采集木石后按B建造。", "按住E采集，F吃食物；左键朝鼠标方向攻击，玩家死亡即失败。", "高塔仅弓兵或火枪兵，同职业最多3人；迫击炮使用独立阵列。", "科技与居民从2级起分化，火枪兵需协同Ⅱ，迫击炮兵需协同Ⅲ。", "整局最多获得30研究点：基地升级15点、玩家等级15点。", "修复核心和其他非防御设施每日上限25%；升级核心立即回满。", "其他岛不会停摆，远程信息依赖通讯塔；夜间交通7秒。", "第10夜无岛失守即胜利；所有岛损伤≤20%达成完美结局。", "当前任务："+g.message]
+	var lines=["比勒加群岛 · 十日重建", "白天100秒 → 入夜2秒 → 夜晚80秒；三岛同步受袭。", "E救援无业居民；Tab分配工匠；采集木石后按B建造。", "按住E采集，右键吃食物；左键朝鼠标方向攻击，玩家死亡即失败。", "高塔仅弓兵或火枪兵，同职业最多3人；迫击炮使用独立阵列。", "科技与居民从2级起分化，火枪兵需协同Ⅱ，迫击炮兵需协同Ⅲ。", "整局最多获得30研究点：基地升级15点、玩家等级15点。", "修复核心和其他非防御设施每日上限25%；升级核心立即回满。", "其他岛不会停摆，远程信息依赖通讯塔；夜间交通7秒。", "第10夜无岛失守即胜利；所有岛损伤≤20%达成完美结局。", "当前任务："+g.message]
 	for i in range(lines.size()):label_at(lines[i],Vector2(55,195+i*31),22 if i==0 else 16)
 
 func draw_main():
@@ -727,6 +754,14 @@ func result_ui():
 		y+=51
 	if g.phase=="BE":label_at("读取白天存档，重新布置防线。",Vector2(215,405),19)
 	if g.phase in ["HE","NE"]:label_at("你让三座岛的灯火，照亮了第十一日的晨曦。",Vector2(215,405),19)
+	var reward_y=395
+	for i in range(g.reward_choices.size()):
+		var reward=g.reward_choices[i]
+		label_at(g.worlds[reward.island].cfg.name+" 完美防御奖励：",Vector2(215,reward_y),15)
+		button(Rect2(455,reward_y-23,125,28),"产出 +20%",func():g.message=g.choose_reward(i,0),reward.choice==-1)
+		button(Rect2(590,reward_y-23,125,28),"信赖 +1",func():g.message=g.choose_reward(i,1),reward.choice==-1)
+		button(Rect2(725,reward_y-23,125,28),"流民 1 名",func():g.message=g.choose_reward(i,2),reward.choice==-1)
+		reward_y+=34
 	button(Rect2(290,440,570,44),"迎接新一天" if g.phase=="RESULT" else "回到存档 / 开始另一条路线",func():
 		if g.phase=="RESULT":g.next_day();menu=""
 		else:menu="settings";g.phase="MENU")
@@ -809,6 +844,7 @@ func _draw_content():
 			if detail!=null and detail.has("resident"):resident_context()
 			else:dispatch_ui()
 		elif menu=="character":character_ui()
+		elif menu=="warehouse":warehouse_ui()
 		elif menu=="workshop":workshop_ui()
 		elif menu=="saves":settings_ui()
 	if menu=="" and g.phase in ["RESULT","BE","HE","NE"]:result_ui()
@@ -911,7 +947,7 @@ func _input(event):
 		if menu!="":return
 		var quick_keys=[KEY_1,KEY_2,KEY_3,KEY_4,KEY_5,KEY_6,KEY_7,KEY_8,KEY_9,KEY_0,KEY_MINUS,KEY_EQUAL]
 		if event.keycode in quick_keys:g.message=g.items.equip(quick_keys.find(event.keycode));return
-		if event.keycode==KEY_F:g.heal()
+		if event.keycode==KEY_F:g.message="请使用鼠标右键食物回血"
 		if event.keycode==KEY_E:interact_action()
 		if event.keycode==KEY_U:g.message=g.upgrade_core()
 		if event.keycode==KEY_B:
@@ -938,6 +974,12 @@ func _input(event):
 						max_scroll=max(0,int(ceil(count/6.0))-1)
 			if key!="":dispatch_scroll[key]=clamp(dispatch_scroll.get(key,0)+(1 if event.button_index==MOUSE_BUTTON_WHEEL_DOWN else -1),0,max_scroll)
 			return
+		if event.button_index==MOUSE_BUTTON_LEFT and menu=="warehouse" and event.pressed:
+			for cell in warehouse_cells:
+				if cell.rect.has_point(cursor):
+					if cell.source=="warehouse":g.message=g.warehouse_withdraw(cell.index)
+					else:g.message=g.warehouse_transfer(-1,cell.index)
+					return
 		if event.button_index==MOUSE_BUTTON_LEFT and menu=="character":
 			if event.pressed:
 				for cell in inventory_cells:
@@ -952,6 +994,9 @@ func _input(event):
 		if event.button_index==MOUSE_BUTTON_RIGHT and event.pressed:
 			if menu=="" and placement=="":
 				var point=screen_to_world(cursor)
+				if g.items.held()==null:
+					g.heal()
+					return
 				for r in g.current().s.residents:
 					if point.distance_to(r.pos)<28 and r.pos.distance_to(g.player.pos)<85:
 						if g.items.held()!=null:g.message=g.items.give(r)
@@ -978,3 +1023,8 @@ func _input(event):
 			if Rect2(Vector2(b.cell)*32,Vector2(d.w,d.h)*32).has_point(world_pos):selected=b;return
 		g.attack(world_pos-g.player.pos)
 		sound()
+
+
+
+
+
